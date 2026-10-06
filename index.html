@@ -1,0 +1,1885 @@
+
+<!-- Part 0 : head, styles, sidebar, cover -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liquidity &amp; Volume Nexus — Official User Manual v2.4.2</title>
+<link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+<link rel="apple-touch-icon" href="images/favicon.svg">
+<style>
+:root {
+  --accent:       #0b7285;
+  --accent-dark:  #095c6d;
+  --accent-light: #e3f2f5;
+  --text:         #222;
+  --text-soft:    #555;
+  --border:       #d8dee3;
+  --bg-soft:      #f6f8fa;
+  --code-bg:      #eef2f5;
+  --warn:         #b76e00;
+  --warn-bg:      #fff8e6;
+  --info:         #0b7285;
+  --info-bg:      #e3f2f5;
+  --ok:           #2b8a3e;
+  --ok-bg:        #e6f4ea;
+  --danger:       #c92a2a;
+  --danger-bg:    #ffe8e8;
+  --sidebar-w:    280px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text);
+  background: #fff;
+}
+a { color: var(--accent-dark); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  background: var(--bg-soft);
+  border-right: 1px solid var(--border);
+  padding: 24px 20px 60px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  font-size: 14px;
+}
+.sidebar h2 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-soft);
+  margin: 24px 0 8px;
+}
+.sidebar h2:first-of-type { margin-top: 0; }
+.sidebar ul { list-style: none; padding: 0; margin: 0; }
+.sidebar li { margin: 4px 0; }
+.sidebar li a { color: var(--text); display: block; padding: 4px 8px; border-radius: 4px; }
+.sidebar li a:hover { background: var(--accent-light); text-decoration: none; }
+.content {
+  flex: 1;
+  max-width: 1100px;
+  padding: 48px 56px 96px;
+  min-width: 0;
+}
+
+/* ---------- Hero banner (new in v1.0.9) ---------- */
+figure.hero {
+  margin: 0 0 32px 0;
+  padding: 0;
+  text-align: center;
+}
+figure.hero img {
+  width: 100%;
+  max-width: 1200px;
+  height: auto;
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.22);
+}
+.cover-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  padding: 20px 24px;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 56px;
+  font-size: 14px;
+}
+.cover-meta strong {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-soft);
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+/* ---------- Cover (legacy, kept for safety) ---------- */
+.cover {
+  padding: 72px 56px;
+  background: linear-gradient(135deg, #0b7285 0%, #075966 100%);
+  color: #fff;
+  border-radius: 12px;
+  margin-bottom: 56px;
+}
+.cover h1 { font-size: 42px; line-height: 1.15; margin: 0 0 12px; letter-spacing: -0.02em; }
+.cover .tagline { font-size: 18px; opacity: 0.9; margin: 0 0 32px; }
+.cover .meta {
+  font-size: 14px;
+  opacity: 0.85;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.25);
+}
+.cover .meta strong { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.7; margin-bottom: 4px; }
+
+/* ---------- Headings ---------- */
+h1 { font-size: 32px; margin: 56px 0 16px; letter-spacing: -0.01em; }
+h2 { font-size: 24px; margin: 48px 0 12px; padding-top: 8px; border-top: 1px solid var(--border); }
+h2:first-of-type { border-top: none; }
+h3 { font-size: 19px; margin: 32px 0 10px; color: var(--accent-dark); }
+h4 { font-size: 16px; margin: 24px 0 8px; color: var(--text); }
+p { margin: 12px 0; }
+ul, ol { margin: 12px 0; padding-left: 24px; }
+li { margin: 4px 0; }
+
+/* ---------- Tables ---------- */
+table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; font-size: 14px; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { background: var(--bg-soft); font-weight: 600; }
+tr:hover td { background: #fafcfd; }
+
+/* ---------- Code ---------- */
+code {
+  font-family: "Consolas", "Monaco", "Courier New", monospace;
+  font-size: 0.92em;
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: #333;
+}
+pre {
+  background: var(--code-bg);
+  padding: 16px;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* ---------- Callouts ---------- */
+.callout {
+  border-left: 4px solid var(--accent);
+  background: var(--info-bg);
+  padding: 14px 18px;
+  border-radius: 4px;
+  margin: 20px 0;
+  font-size: 15px;
+}
+.callout.tip    { border-color: var(--ok);     background: var(--ok-bg); }
+.callout.warn   { border-color: var(--warn);   background: var(--warn-bg); }
+.callout.note   { border-color: var(--accent); background: var(--info-bg); }
+.callout.danger { border-color: var(--danger); background: var(--danger-bg); }
+.callout strong { display: block; margin-bottom: 4px; text-transform: uppercase; font-size: 11px; letter-spacing: 0.08em; opacity: 0.75; }
+.callout.tip strong    { color: var(--ok); }
+.callout.warn strong   { color: var(--warn); }
+.callout.note strong   { color: var(--accent); }
+.callout.danger strong { color: var(--danger); }
+
+/* ---------- Images ---------- */
+figure { margin: 24px 0; text-align: center; }
+figure img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+figcaption { font-size: 13px; color: var(--text-soft); margin-top: 10px; font-style: italic; }
+
+/* ---------- Steps list ---------- */
+ol.steps { counter-reset: step; list-style: none; padding-left: 0; }
+ol.steps > li {
+  counter-increment: step;
+  position: relative;
+  padding: 12px 12px 12px 56px;
+  margin: 8px 0;
+  background: var(--bg-soft);
+  border-radius: 6px;
+  border-left: 3px solid var(--accent);
+}
+ol.steps > li::before {
+  content: counter(step);
+  position: absolute;
+  left: 14px;
+  top: 12px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+/* ---------- Badges ---------- */
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+.badge.long    { background: var(--ok-bg);     color: var(--ok); }
+.badge.short   { background: var(--danger-bg); color: var(--danger); }
+.badge.wait    { background: var(--warn-bg);   color: var(--warn); }
+.badge.neutral { background: var(--bg-soft);   color: var(--text-soft); }
+
+/* ---------- Anchor offset ---------- */
+h2, h3, h4 { scroll-margin-top: 20px; }
+
+/* ---------- Print ---------- */
+@media print {
+  body { font-size: 11pt; }
+  .sidebar { display: none; }
+  .layout { display: block; }
+  .content { max-width: 100%; padding: 0; }
+  .cover { border-radius: 0; padding: 40px 24px; }
+  h1, h2 { page-break-after: avoid; }
+  figure { page-break-inside: avoid; }
+  figure.hero { margin-bottom: 20px; }
+  figure.hero img { box-shadow: none; border-radius: 0; }
+  .cover-meta { background: #fff; border-color: #999; }
+  a { color: var(--text); text-decoration: none; }
+  a[href^="#"]::after { content: ""; }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .layout { flex-direction: column; }
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: static;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    max-height: 40vh;
+  }
+  .content { padding: 24px; }
+  .cover { padding: 40px 24px; }
+  .cover h1 { font-size: 28px; }
+  .cover-meta { gap: 16px; padding: 16px; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<nav class="sidebar">
+  <div style="font-weight:700;font-size:15px;color:var(--accent-dark);margin-bottom:4px;">Liquidity &amp; Volume Nexus</div>
+  <div style="font-size:12px;color:var(--text-soft);margin-bottom:24px;">User Manual · v2.4.2</div>
+
+  <h2>Section 1 — Features</h2>
+  <ul>
+    <li><a href="#s1-intro">1. Introduction &amp; Philosophy</a></li>
+    <li><a href="#s1-arch">2. Architecture &amp; Guarantees</a></li>
+    <li><a href="#s1-swings">3. Swing Detection</a></li>
+    <li><a href="#s1-structure">4. Market Structure (BOS / CHoCH)</a></li>
+    <li><a href="#s1-fvg">5. Fair Value Gaps &amp; Breakers</a></li>
+    <li><a href="#s1-range">6. Premium / Discount / OTE</a></li>
+    <li><a href="#s1-liquidity">7. Liquidity Engine &amp; Sweeps</a></li>
+    <li><a href="#s1-prior">8. Prior Day / Week Levels</a></li>
+    <li><a href="#s1-volume">9. Volume Nexus &amp; Zone Score</a></li>
+    <li><a href="#s1-squeeze">10. Volume Squeeze Detector</a></li>
+    <li><a href="#s1-profile">11. Volume Profile</a></li>
+    <li><a href="#s1-signals">12. Nexus Signal Engine</a></li>
+    <li><a href="#s1-card">13. Signal Card &amp; Grades</a></li>
+    <li><a href="#s1-plan">14. Trade Plan &amp; Life-Cycle</a></li>
+    <li><a href="#s1-advice">15. Trade Advice Block</a></li>
+    <li><a href="#s1-journal">16. Journal &amp; Statistics</a></li>
+    <li><a href="#s1-panel">17. Panel / Badge / Strip</a></li>
+    <li><a href="#s1-mtf">18. Multi-Timeframe Mode</a></li>
+    <li><a href="#s1-watch">19. Multi-Symbol Watch</a></li>
+    <li><a href="#s1-alerts">20. Alerts, Sizing &amp; Costs</a></li>
+    <li><a href="#s1-bridge">20.4 Signal Bridge (robot feed)</a></li>
+    <li><a href="#s1-params">21. Parameter Reference (222)</a></li>
+  </ul>
+
+  <h2>Section 2 — How to Use</h2>
+  <ul>
+    <li><a href="#s2-install">22. Installation &amp; First Launch</a></li>
+    <li><a href="#s2-glyphs">23. Reading the Chart: Every Glyph</a></li>
+    <li><a href="#s2-card">24. The Signal Card, Line by Line</a></li>
+    <li><a href="#s2-panel">25. The Info Panel, Line by Line</a></li>
+    <li><a href="#s2-lifecycle">26. Life of a Signal</a></li>
+    <li><a href="#s2-entry">27. Entering a Trade</a></li>
+    <li><a href="#s2-manage">28. Managing a Trade</a></li>
+    <li><a href="#s2-enter-wait">29. Enter Now or Wait?</a></li>
+    <li><a href="#s2-fakeouts">30. False Moves &amp; Breakout Clues</a></li>
+    <li><a href="#s2-mtf">31. Multi-Timeframe Workflow</a></li>
+    <li><a href="#s2-journal">32. Journal, Stats &amp; CSV</a></li>
+    <li><a href="#s2-alerts">33. Alerts &amp; Debug Log</a></li>
+    <li><a href="#s2-instruments">34. Timeframes &amp; Instruments</a></li>
+  </ul>
+
+  <h2>Section 3 — Tips</h2>
+  <ul>
+    <li><a href="#s3-golden">35. The Golden Rules</a></li>
+    <li><a href="#s3-presets">36. Presets by Trading Style</a></li>
+    <li><a href="#s3-risk">37. Risk Management</a></li>
+    <li><a href="#s3-avoid">38. What NOT to Do</a></li>
+    <li><a href="#s3-follow">39. What to Follow</a></li>
+    <li><a href="#s3-grades">40. Reading Grades &amp; Track Records</a></li>
+    <li><a href="#s3-perf">41. Performance &amp; Chart Hygiene</a></li>
+    <li><a href="#s3-faq">42. FAQ</a></li>
+    <li><a href="#s3-trouble">43. Troubleshooting</a></li>
+    <li><a href="#s3-glossary">44. Glossary</a></li>
+  </ul>
+</nav>
+
+<main class="content">
+
+<figure class="hero">
+  <img src="images/banner.svg" alt="Liquidity &amp; Volume Nexus">
+</figure>
+<section class="cover-meta">
+  <div><strong>Product</strong>cTrader Algo Indicator</div>
+  <div><strong>Version</strong>2.4.2</div>
+  <div><strong>Platform</strong>cTrader Desktop / Web</div>
+  <div><strong>Permissions</strong>AccessRights.None</div>
+  <div><strong>Manual revision</strong>2026-10</div>
+</section>
+
+<div class="callout info">
+  <strong>What changed since the v2.3.0 manual (v2.3.1 → v2.4.2)</strong>
+  <ul style="margin:8px 0 0 0;padding-left:20px;">
+    <li><b>v2.3.1–v2.3.3 (rev 9–11):</b> state-hygiene audits; the engine became robot-ready — <code>INexusHost</code> seam, shared build blocks; the card's trade-advice block gained honest horizon units.</li>
+    <li><b>v2.3.4 (rev 12):</b> the size hint prints <i>lots</i>, not raw units (platform <code>VolumeForProportionalRisk</code> returns units; 1 lot = <code>LotSize</code> units).</li>
+    <li><b>v2.3.5 (rev 13):</b> the journal CSV grew a 30th column, <code>plan_key</code> — the join key with the AutoTrader's execution CSV.</li>
+    <li><b>v2.4.0 (rev 14):</b> <b>Signal Bridge</b> (Module 4.8, group 16, default OFF): one atomic JSON frame per live closed bar for the companion robot.</li>
+    <li><b>v2.4.1 (rev 15):</b> the spread is read as a price difference (Ask−Bid) and converted through <code>TickSize</code> — pre-2.4.1 builds mis-scaled it, so <b>re-run old backtests</b>; every cost gate now works as documented.</li>
+    <li><b>v2.4.2 (rev 16):</b> the attach/history pass defers every off-screen draw (13× fewer chart operations on deep histories — H4 attaches in seconds now), and the Multi-Symbol Watch board keeps a permanent two-row gap above the chart's bottom edge.</li>
+  </ul>
+</div>
+
+<div class="callout note">
+  <strong>How this manual is organised</strong>
+  Three sections, as promised: <b>Section 1 — Features</b> describes every module, every signal and all 222 parameters;
+  <b>Section 2 — How to Use</b> is the working trader's guide: every glyph on the chart, every line of the card and the panel,
+  when to enter, when to wait, and how to read false moves; <b>Section 3 — Tips</b> collects the habits that make the product
+  pay for itself — and the mistakes that make traders quit it. Read Section 2.9 and Section 3.5 even if you skip everything else.
+</div>
+<!-- ============================================================
+     SECTION 1 — FEATURES
+     ============================================================ -->
+<h1 id="section-1" style="font-size:40px;border-bottom:3px solid var(--accent);padding-bottom:12px;">SECTION 1 — FEATURES</h1>
+<p style="font-size:18px;color:var(--text-soft);">Everything the product is, module by module, parameter by parameter.</p>
+
+<h2 id="s1-intro">1. Introduction &amp; Philosophy</h2>
+
+<h3>1.1 What is Liquidity &amp; Volume Nexus?</h3>
+<p>
+<b>Liquidity &amp; Volume Nexus</b> is a professional cTrader overlay indicator that unifies three institutional
+trading disciplines into one coherent system — and then does what almost no indicator dares to do:
+<b>it measures its own signals and shows you the verdict.</b>
+</p>
+<ul>
+  <li><b>Smart-Money Structure</b> — fractal swings, Break of Structure (BOS), Change of Character (CHoCH), breaker blocks, fair value gaps and their inverses, premium/discount ranges with the Optimal Trade Entry zone.</li>
+  <li><b>Liquidity Mapping</b> — Equal Highs / Equal Lows clusters, single-swing Buy-Side / Sell-Side liquidity, sweep detection with the raid's exact reach, prior-day and prior-week extremes — the resting orders every session trades against.</li>
+  <li><b>Volume Intelligence</b> — a time-of-day-aware volume baseline, a per-zone Volume Score with exponential decay, a Volume Squeeze detector and a full session Volume Profile with POC / VAH / VAL.</li>
+</ul>
+<p>
+On top of that map sits a <b>signal engine</b>: a Nexus Signal fires only when a strong volume-backed zone,
+a structural confirmation (or a freshly swept liquidity pool), a cost-aware trade plan, the session clock and
+the volatility regime all agree. Each signal becomes a <b>projected trade plan</b> (Entry / Stop / TP1 / TP2 / TP3),
+a <b>corner card with a grade and trade advice</b>, and an entry in a <b>journal</b> that records what actually
+happened — in R, on your broker feed, with profit factor, drawdown and a statistical-significance verdict.
+</p>
+
+<h3>1.2 The philosophy in one paragraph</h3>
+<div class="callout note">
+  <strong>No probabilities. No promises. Only measured facts.</strong>
+  Every number this product prints comes either from live chart data or from its own journal of your feed.
+  A grade (A+/A/B) is a deterministic checklist result, not a prediction. The journal tells you — with sample
+  sizes — whether that checklist has been working <i>on your symbol, your timeframe, your broker</i>. The product
+  places no orders, reads no account money and asks for no permissions (<code>AccessRights.None</code>).
+</div>
+
+<h3>1.3 Feature summary at a glance</h3>
+<table>
+  <tr><th>Capability</th><th>What you get</th></tr>
+  <tr><td>Chart map</td><td>Swings, BOS/CHoCH, breakers, FVG/iFVG, premium/discount + OTE, EQH/EQL, BSL/SSL, sweeps, PDH/PDL/PWH/PWL, volume profile, squeeze markers</td></tr>
+  <tr><td>Signals</td><td>Two setups — <b>Continuation</b> (structure break in the trade direction) and <b>Reversal</b> (fade a freshly swept pool on an SFP close) — behind ten quality gates</td></tr>
+  <tr><td>Trade plan</td><td>Entry / Stop / TP1 / TP2 / TP3 projected on the chart with R multiples, risk &amp; reward boxes, position-size hint for your % risk</td></tr>
+  <tr><td>Signal card</td><td>Corner card with grade, gate count, the grade's own track record, setup label, R:R (gross + net after spread), and the <b>ADVICE</b> block: signal time, hold estimate (bars / hours / HTF bars), adverse-move guidance</td></tr>
+  <tr><td>Life-cycle</td><td>LIVE → STOPPED / TP1 TAGGED / ZONE GONE / STRUCTURE FLIP / SUPERSEDED / EXPIRED — latched, intrabar detection, outcome tags on the chart, alerts</td></tr>
+  <tr><td>Limit entries</td><td>Fill-verified: a limit plan is an ORDER until traded (gap fills at the better open); never-traded orders end NOT FILLED with no invented statistics</td></tr>
+  <tr><td>Journal</td><td>Every signal recorded with plan, session, grade, spread, gross/net R:R, MFE/MAE, outcome in R; panel aggregates; PF / max drawdown / losing streak / t-statistic; 30-column CSV export</td></tr>
+  <tr><td>Context</td><td>Info panel, context badge, session strip with countdowns, multi-timeframe engine, multi-symbol watch board</td></tr>
+  <tr><td>Transparency</td><td>Every rejection counted and printed ("why hasn't it fired in three days?" is one glance); debug log; history-pass report</td></tr>
+</table>
+
+<figure>
+  <img src="images/01_main_chart.png" alt="Main chart overview">
+  <figcaption>The full workbench: structure lines, FVG zones, liquidity levels, prior-day extremes, the volume profile and the info panel on one M15 chart.</figcaption>
+</figure>
+
+<h2 id="s1-arch">2. Architecture &amp; Guarantees</h2>
+
+<h3>2.1 The closed-bar pipeline (why it never repaints)</h3>
+<p>
+cTrader calls an indicator's <code>Calculate()</code> on <b>every tick</b>, and the bar it passes is the one still
+forming. Nexus never lets an unfinished bar touch its engines: the whole pipeline (swings → structure → zones →
+liquidity → volume → signals → journal) consumes <b>the bar that has just closed</b>. The forming bar is used only
+for the live panel read-out, the provisional swing preview (explicitly marked, off by default) and the intrabar
+life-cycle watch (so a stop taken mid-bar is reported mid-bar — and latched: a wick that retracts can never
+"un-stop" a trade).
+</p>
+<p>
+This was verified tick-by-tick: running the same series once as a live tick stream and once as closed bars produces
+<b>identical journals</b> — the same signals, the same fills, the same outcomes. What you backtest by eye on history
+is exactly what the live edge will do.
+</p>
+
+<h3>2.2 The guarantees</h3>
+<table>
+  <tr><th>Guarantee</th><th>How it is enforced</th></tr>
+  <tr><td>No repaint</td><td>Closed-bar pipeline; confirmed swings publish only after their right leg closes; zones, sweeps and events are immutable once published; outcomes are latched</td></tr>
+  <tr><td>No look-ahead</td><td>The volume baseline for bar N is built from bars before N only; ATR excludes the forming bar; PDH/PDL/PWH/PWL come from <i>completed</i> UTC day / ISO week periods and never move during their own day</td></tr>
+  <tr><td>No invented statistics</td><td>Limit plans are fill-verified; unfilled orders contribute no R; abandoned entries (timeframe switch) are excluded from every aggregate; history replay is separated from your live record</td></tr>
+  <tr><td>No permissions</td><td><code>AccessRights.None</code> — no account access, no trading, no file writes; the CSV export goes to the cTrader log; the size hint is display-only</td></tr>
+  <tr><td>No frozen terminal</td><td>Tens of thousands of bars process in about two seconds; every chart-object family lives inside a budget; stable object names mean no flicker and no leaks</td></tr>
+  <tr><td>No silent misconfiguration</td><td>All 222 parameters are cross-validated at start-up (<code>NormalizeSettings</code>): contradictory combinations are reconciled to the safe side and reported in the log with Debug Log on</td></tr>
+</table>
+
+<h2 id="s1-swings">3. Swing Detection (Module 1.1)</h2>
+<p>
+Swings are the atoms of the whole system: structure breaks, liquidity pools and the dealing range are all built
+from them. A <b>fractal swing</b> is a bar whose high (or low) is strictly beyond its <code>Swing Period</code>
+neighbours on both sides.
+</p>
+<ul>
+  <li><b>Strict publication.</b> A swing at bar C is published only after bar C&nbsp;+&nbsp;Legs has <i>closed</i>. Until then it does not exist for any module — this is the anti-repaint contract.</li>
+  <li><b>Tick epsilon.</b> A neighbour must sit at least half a tick beyond the centre to count as lower/higher. Exact ties therefore <i>cancel</i> the swing — deliberately: equal highs/lows belong to the Liquidity Engine (Module 2), not to the swing list, so the same level is never owned twice.</li>
+  <li><b>Markers.</b> A confirmed swing high draws a filled red ▼ above the bar; a swing low draws a filled green ▲ below it (colours configurable). Optional price labels print the exact level.</li>
+  <li><b>Provisional preview</b> (off by default): a hollow △/▽ glyph on the forming bar shows a swing that <i>would</i> confirm if the remaining bars cooperate. It is repainting by definition, is drawn in its own grey colour, never influences any module, and vanishes the moment it becomes invalid — a confirmed swing never carries two glyphs.</li>
+</ul>
+<div class="callout tip">
+  <strong>Tip</strong>
+  <code>Swing Period (fractal legs)</code> = 5 (default) is the balanced choice. Lower legs (2–3) mark up every
+  micro-swing — good for scalping M1/M5, noisy elsewhere. Higher legs (8–12) keep only major pivots — right for H4/D1
+  swing reading. The same parameter family drives the MTF engine separately (<code>HTF Swing Period</code>).
+</div>
+
+<h2 id="s1-structure">4. Market Structure — BOS / CHoCH / Breakers (Module 1.2)</h2>
+<p>
+The Structure Engine tracks the <b>active</b> (last unbroken) swing high and swing low — the two levels the market
+is currently "answering to" — and publishes an event the moment one of them breaks:
+</p>
+<table>
+  <tr><th>Event</th><th>Meaning</th><th>On the chart</th></tr>
+  <tr><td><b>BOS</b> (Break of Structure)</td><td>The break <i>continues</i> the prevailing context: a high broken while the context is Bullish or neutral, a low broken while Bearish</td><td>Solid horizontal line at the broken level, starting at the swing, extending past the break bar; label "BOS" (optionally with the price)</td></tr>
+  <tr><td><b>CHoCH</b> (Change of Character)</td><td>The first break <i>against</i> the prevailing context — the earliest structural hint that the trend may be turning</td><td>Dotted line, aqua when bullish (breaking a high in a Bearish context), orange when bearish</td></tr>
+</table>
+<ul>
+  <li><b>Break Confirmation</b> parameter: <code>Close</code> (default — the bar must close beyond the level; fewer, stronger events) or <code>Wick</code> (any trade beyond the level; faster, noisier — one bar can then publish two events when it takes out both sides).</li>
+  <li><b>Synthesised context.</b> After every event the engine holds a context reading — <span class="badge long">BULLISH</span> / <span class="badge short">BEARISH</span> / <span class="badge neutral">RANGE</span> — shown in the badge, the panel, and used by the signal engine (the reversal setup is a Range-context specialist). Before the first event the context is RANGE.</li>
+  <li><b>Active BSL / SSL lines.</b> Two dotted silver horizontal lines mark the current unbroken swing high (buy-side liquidity resting above it) and swing low (sell-side below). When a line breaks, the engine falls back to the previous unbroken swing of that side — the levels walk backwards through history honestly.</li>
+  <li><b>Breaker blocks.</b> When a swing breaks, the engine searches back (window: <code>Breaker Search Window</code>) for the <b>last opposite candle before the broken swing</b> — the down-candle before a broken high (bullish breaker, drawn lime), the up-candle before a broken low (bearish breaker, red). That candle's full range becomes a zone: institutions that were trapped there often defend it on the retest. Near-duplicate breakers (80%+ overlap of the smaller range) are collapsed into one. Breakers age out after <code>Breaker Max Age</code> bars or when fully mitigated.</li>
+  <li><b>Swing separation.</b> A liquidity <i>sweep</i> (Module 2, wick-based by default) never marks a swing as structurally <i>broken</i> (close-based by default) — so a wick raid below a low does not blind the engine to the real close-break that follows. This separation is what makes the BOS/CHoCH stream trustworthy on raid-heavy charts.</li>
+</ul>
+
+<figure>
+  <img src="images/10_structure_bos_choch.png" alt="BOS and CHoCH events">
+  <figcaption>A structure chain on a down-leg: priced bullish BOS lines (lime) while the trend advances, CHoCH labels (aqua/orange) where price first breaks against the prevailing context, swing extremes tagged with their prices, and breaker zones (red boxes, right) where consumed levels flipped to resistance.</figcaption>
+</figure>
+
+<figure>
+  <img src="images/18_structure_labels_closeup.png" alt="Structure labels close-up">
+  <figcaption>Label grammar up close: BOS prints in the trend's colour on the breaking bar, CHoCH in the reversal colour, each with its priced level; swing extremes carry small priced tags so every line on the chart can be audited against a bar you can point at.</figcaption>
+</figure>
+
+<h2 id="s1-fvg">5. Fair Value Gaps, Inverse FVG, Mitigation (Module 1.3)</h2>
+<p>
+A <b>Fair Value Gap</b> is a three-bar imbalance: a bullish FVG exists when bar N's low trades strictly above bar
+N−2's high (the market jumped and left an unfilled range between); a bearish FVG is the mirror. The gap is drawn as
+a rectangle from the moment it forms, and from then on it lives a measurable life:
+</p>
+<ul>
+  <li><b>Size filter.</b> Gaps smaller than <code>FVG Min Size (x ATR)</code> (default 0.25) or a points minimum are ignored — sub-noise gaps never become zones.</li>
+  <li><b>Partial mitigation.</b> Every trade inside the gap updates its <code>MitigationRatio</code> (0→1). The fill's transparency follows the zone's Volume Score; a mitigated zone fades to a third of its alpha and its rectangle stops extending at the mitigation time (plus a few bars).</li>
+  <li><b>Full mitigation → Inverse FVG.</b> When the bar <i>closes through</i> the far edge of the gap, the gap is consumed and — with <code>Enable Inverse FVG</code> on — an <b>inverse zone</b> (orange) is spawned over the same range with the flipped polarity: a fully filled bullish gap becomes resistance, a filled bearish gap becomes support. Inverses never flip again — no infinite ping-pong.</li>
+  <li><b>Lifetime.</b> Unmitigated gaps deactivate after <code>FVG Max Age</code> bars; mitigated ones linger for <code>Keep Mitigated Zones</code> bars (for context) unless <code>Hide Mitigated Zones</code> removes them from sight. Deactivation is state, not deletion: an aged zone stops scoring and can no longer produce signals.</li>
+  <li><b>Polarity.</b> Bullish zones (bullish FVG, inverse of a bearish FVG, bullish breaker, EQL, SSL) are candidate support for <b>longs</b>; the mirror set serves <b>shorts</b>. The signal engine only ever reacts at a zone whose polarity matches the trade direction.</li>
+</ul>
+
+<figure>
+  <img src="images/02_zone_closeup.png" alt="Zone close-up">
+  <figcaption>One frame, the whole vocabulary: bullish FVGs with Volume Score labels (FVG+ 58 / FVG+ 72), breakers (BRK+ 80), an inverse FVG ([h4] iFVG), swept BSL/SSL lines with exact sweep timestamps, the EQ 50% / OTE 62–79% ladder, an outcome tag (✗ STOP −1.0R) and the session profile histogram on the right edge.</figcaption>
+</figure>
+
+<h2 id="s1-range">6. Premium / Discount / OTE (Module 1.4)</h2>
+<p>
+The <b>dealing range</b> is the last confirmed swing high / swing low pair — the battlefield institutions are currently
+working within. The module paints its upper half as <b>Premium</b> (red tint — expensive; favour selling) and its lower
+half as <b>Discount</b> (green tint — cheap; favour buying), with three dotted reference lines:
+</p>
+<ul>
+  <li><b>RANGE HIGH / RANGE LOW</b> — the range boundaries, labelled with prices.</li>
+  <li><b>EQ 50%</b> — equilibrium: the fair middle. Above it, longs are chasing; below it, shorts are chasing.</li>
+  <li><b>OTE 62 / 70.5 / 79</b> — the Optimal Trade Entry band (yellow): the 62%–79% retracement of the range measured from the top, where a continuation long ideally enters on a pullback. Shorts mirror it: their OTE is the same band measured from the bottom (the module draws the retracement of the current range direction).</li>
+</ul>
+<p>
+The range redraws only when a new swing confirms or on the scheduled refresh — it is cheap, stable and never
+flickers. With <code>Show Premium / Discount Range</code> off, the whole module (including its eight chart objects)
+is removed cleanly.
+</p>
+
+<figure>
+  <img src="images/22_premium_discount_ote.png" alt="Premium, discount and the OTE ladder">
+  <figcaption>The range anatomy on live data: EQ 50% (the equilibrium), the OTE ladder at 62 / 70.5 / 79% in the discount half, RANGE HIGH/LOW edges and the profile's POC/VAL crossing the same area — location tools, never entry signals by themselves.</figcaption>
+</figure>
+
+<h2 id="s1-liquidity">7. Liquidity Engine &amp; Sweeps (Module 2)</h2>
+<p>
+Liquidity is where resting orders (stop-losses, breakout buys) sit. The engine maintains two families of levels:
+</p>
+<h3>7.1 Equal Highs / Equal Lows (EQH / EQL)</h3>
+<ul>
+  <li>Confirmed swings within <code>Liquidity Lookback</code> bars are clustered when their prices agree inside a tolerance (points or ATR-based). A cluster of ≥ <code>Minimum Touches</code> (default 2) swings becomes a pool: orange line for EQH (buy-side liquidity above), aqua for EQL (sell-side below).</li>
+  <li>The label shows touches ("EQH x3") and the zone's Volume Score. The more touches, the thicker/denser the line style — a triple-touch EQH is a magnet with a lot of stops behind it.</li>
+  <li>Clusters refresh in place with stable object names: a level that gains a third touch updates instead of redrawing somewhere else. A swing whose liquidity was already taken can never seed a new cluster — no phantom "fresh" levels out of consumed swings.</li>
+</ul>
+<h3>7.2 Single-swing BSL / SSL</h3>
+<ul>
+  <li>The last unbroken swing high carries a <b>BSL</b> line (gold — buy-side resting above), the last unbroken swing low an <b>SSL</b> line (turquoise — sell-side below). They follow the newest confirmed swing automatically and <b>live until swept</b> — age never kills them, because "the market hasn't traded there for 300 bars" does not remove the orders resting there.</li>
+</ul>
+<h3>7.3 Sweeps — the event everything revolves around</h3>
+<ul>
+  <li>A pool is <b>swept</b> when price trades beyond its level: by wick (<code>Sweep Confirmation = Wick</code>, default — raids are wicks) or by close. The engine records the sweep bar, the exact <b>raid reach</b> (that bar's extreme — the future reversal stop anchor), marks the source swings as swept (but not structurally broken), and repaints the level grey + dotted with a "SWEPT" label.</li>
+  <li>Swept pools stay visible for <code>Keep Swept Pools</code> bars (default 60; 0 hides them at once) — they are listed on the panel with a "*" marker, because a freshly swept level is exactly what the Reversal setup fades.</li>
+  <li>A sweep of buy-side liquidity above the highs is, in smart-money reading, <b>fuel for a move down</b> (stops of shorts were harvested, breakout buyers are trapped); a sweep of sell-side below the lows is fuel for a move up. The signal engine turns that reading into an actual setup — see Module 4.1.</li>
+</ul>
+
+<figure>
+  <img src="images/19_liquidity_swept.png" alt="Liquidity levels and a sweep">
+  <figcaption>Swept liquidity, timestamped: four resting levels (BSL 41, SSL 68, SSL, BSL 72) taken out and labelled SWEPT with the exact bar time. A sweep plus a close back inside the level is the raw material of a reversal signal; the EQ 50% line and the OTE ladder below frame the same decision area.</figcaption>
+</figure>
+
+<h2 id="s1-prior">8. Prior Day / Prior Week Levels (Module 2.5)</h2>
+<p>
+Four fixed lines every session trader needs: <b>PDH / PDL</b> (previous <i>completed</i> UTC day's high and low, solid)
+and <b>PWH / PWL</b> (previous completed ISO week's extremes, dotted, slightly transparent). Labels carry the prices;
+the panel prints all four with their signed distance from the live price in pips.
+</p>
+<ul>
+  <li><b>Immutable by construction.</b> Levels are recomputed only when the closed bar crosses into a new day/week, and the scan never includes the current period — today's spike can never leak into "yesterday's high". They cannot repaint, period.</li>
+  <li>These are the highest-probability liquidity references on the chart: algos and desk traders key entries, stops and targets to PDH/PDL daily. A wick through PDH that closes back below it is one of the most reliable intraday fade patterns there is — and Nexus detects exactly that shape as a reversal signal when the raid coincides with a tracked pool.</li>
+</ul>
+
+<figure>
+  <img src="images/24_panel_prior_levels.png" alt="Prior day and week levels on the panel">
+  <figcaption>The panel's prior-period block: PDH/PDL and PWH/PWL with the signed pip distance of the current price — the completed day's and week's extremes, i.e. the resting liquidity every new session trades against. On the chart they are gold lines (solid day, dotted week).</figcaption>
+</figure>
+
+<h2 id="s1-volume">9. Volume Nexus — Baseline &amp; Zone Score (Module 3)</h2>
+<h3>9.1 The honest yardstick: time-of-day baseline</h3>
+<p>
+cAlgo exposes <b>tick volume</b> only, and tick volume is strongly seasonal: the London open prints several times the
+volume of the late New York session. Comparing a bar against a plain rolling average therefore calls <i>everything</i>
+an anomaly at 08:00 and <i>nothing</i> at 20:00. Nexus maintains a per-time-bucket average (bucket size:
+<code>Session Bucket Size</code>, default 60 min) over the loaded history and blends it with the rolling average:
+</p>
+<table>
+  <tr><th>Baseline Mode</th><th>Yardstick</th><th>Use it when…</th></tr>
+  <tr><td><code>Rolling</code></td><td>Simple average of the last N bars (v1 behaviour)</td><td>24/7 instruments with flat seasonality (some crypto)</td></tr>
+  <tr><td><code>Session</code></td><td>Average of the same time-of-day bucket only</td><td>Strongly seasonal instruments (FX during sessions)</td></tr>
+  <tr><td><code>Blended</code> (default, 60% session)</td><td>Weighted mix of both</td><td>The universal choice</td></tr>
+</table>
+<p>
+A bar never inflates its own yardstick (the baseline for bar N is built strictly from bars before N), and
+<code>Baseline History</code> bounds the sliding window (5000 bars default; 0 = all loaded history). The panel prints
+all three numbers side by side — bar volume, baseline with its %, the rolling average and the same-hour average — so
+you can always see <i>which</i> question is being asked.
+</p>
+<h3>9.2 Zone Volume Score (0–100)</h3>
+<p>
+Every active zone accumulates the volume of the bars that trade through it. The score is
+<code>(average per-bar volume inside the zone) / (current baseline) × 50</code>, clamped to 0–100:
+<b>50</b> means the zone trades exactly at the market's normal rate; <b>100</b> means twice the rate or more.
+With <code>Zone Score Half-Life</code> (default 200 bars) contributions decay exponentially, so a zone is scored on
+what it has been doing <i>lately</i>, not on one busy bar from three weeks ago.
+</p>
+<table>
+  <tr><th>Score</th><th>Strength bucket</th><th>What it means</th></tr>
+  <tr><td>≥ 80 (<code>Very Strong</code>)</td><td>Very Strong (thickness 3)</td><td>Heavy two-way interest — the level is being actively defended/attacked; grade A+ material</td></tr>
+  <tr><td>≥ 60 (<code>Strong</code>)</td><td>Strong (thickness 2)</td><td>Above-normal activity — a zone worth trading; the signal engine's default floor</td></tr>
+  <tr><td>≥ 33</td><td>Average</td><td>Normal interest — context only</td></tr>
+  <tr><td>&lt; 33</td><td>Weak</td><td>The market has ignored this level — signals from it are rejected by default</td></tr>
+</table>
+<p>
+The score label is printed inside each zone (optional) and the fill alpha scales with it: bright zones are busy zones.
+</p>
+
+<h2 id="s1-squeeze">10. Volume Squeeze Detector (Module 3.4)</h2>
+<p>
+A <b>squeeze</b> is a stretch of unusually <i>quiet</i> volume — the market coiling before expansion. The detector
+counts consecutive closed bars whose volume sits below <code>Squeeze: Volume Below</code> (% of the time-of-day
+baseline, default 60%). After <code>Squeeze: Minimum Bars</code> (default 5) such bars — and, when
+<code>Require Zone Nearby</code> is on, only within <code>Zone Proximity</code> pips of an active zone — the state
+fires once: a yellow <b>SQZ</b> marker appears under the bar, the badge and panel read "SQUEEZE", and (optionally) an
+alert is raised. The counter resets the first time volume returns to normal.
+</p>
+<figure>
+  <img src="images/20_squeeze_marker.png" alt="Squeeze marker">
+  <figcaption>The yellow SQZ label marks a squeeze: volume below the threshold while price coils against a live zone (the brown band). The marker warns that expansion risk is building — it is context, not a trade signal, and it clears the moment volume returns.</figcaption>
+</figure>
+
+<div class="callout note">
+  <strong>How to read it</strong>
+  A squeeze <i>next to a strong zone or a liquidity level</i> is the highest-quality version of this marker:
+  quiet acceptance against a level that keeps holding, right before the session brings volume back. A squeeze in the
+  middle of nowhere is just lunchtime. See Section 2.10 for the playbook.
+</div>
+
+<h2 id="s1-profile">11. Volume Profile (Module 3.5)</h2>
+<p>
+A price-binned histogram of the selected period, drawn to the right of the last bar:
+</p>
+<ul>
+  <li><b>Range modes.</b> <code>Last Bars</code> (rolling N bars, default 200) or true calendar periods — <code>Current Day</code> / <code>Current Week</code> / <code>Current Month</code> in UTC (not rolling 24h/7d windows — a daily profile never mixes two trading days).</li>
+  <li><b>POC</b> (Point of Control, yellow line) — the price level with the most volume: the period's fair price and a magnet whenever price strays.</li>
+  <li><b>VAH / VAL</b> (Value Area High/Low, aqua) — the band holding <code>Value Area</code>% (default 70) of the period's volume around the POC. Inside the VA the market is "accepting" price; outside it is exploring, and edges of the VA become support/resistance.</li>
+  <li>Each bar's volume is spread evenly across the bins its range covers; bins under 4% of the maximum are not drawn (the histogram stays a calm background column, not a neon block). The panel prints POC/VAH/VAL, the price's signed distance from the POC in pips, and whether price is inside or outside the VA.</li>
+</ul>
+
+<figure>
+  <img src="images/21_volume_profile.png" alt="Volume profile">
+  <figcaption>The volume profile histogram on the right edge (blue column) with priced POC (yellow) and VAL (aqua) labels. Bins under 4% of the maximum are not drawn, so the column stays a calm background reference instead of a neon block.</figcaption>
+</figure>
+<h2 id="s1-signals">12. Nexus Signal Engine (Module 4.1)</h2>
+<p>
+The Nexus Signal is the product's answer to one question: <b>"is this setup worth taking right now, at this cost,
+in this session?"</b> It fires on a closed bar, at most once per cooldown window, and only after passing a gauntlet
+of gates. Two professional setups exist; every signal is labelled with the one that fired.
+</p>
+
+<h3>12.1 The two setups (Signal Direction Mode)</h3>
+<table>
+  <tr><th>Setup</th><th>Idea</th><th>Confirmation</th><th>Stop</th><th>Best regime</th></tr>
+  <tr>
+    <td><b>CONTINUATION</b><br><span class="badge neutral">trend</span></td>
+    <td>Price reacts at a strong volume-backed zone and structure breaks <i>in the trade direction</i>: the market has shown its hand, join it</td>
+    <td>A fresh BOS/CHoCH within <code>Structure Confirmation Lookback</code> bars, matching the direction</td>
+    <td>Beyond the nearest active swing / zone edge on the risk side</td>
+    <td>Trending context on the chart TF, ideally with the HTF agreeing</td>
+  </tr>
+  <tr>
+    <td><b>REVERSAL</b> (SFP fade)<br><span class="badge wait">range</span></td>
+    <td>A liquidity pool was <b>just swept</b> (stops harvested beyond the highs/lows) and the close returned <b>inside</b> the level — the raid failed; fade it</td>
+    <td>The SFP close itself — never a BOS (by the time a BOS agrees with the raid, the raid <i>is</i> the trend). Capped by <code>Max Chase From Level</code> (x ATR) so the entry is a fade, not a late chase</td>
+    <td>Beyond the <b>raid extreme</b> (the sweep bar's wick) and the signal bar's wick — never behind the thin pool band</td>
+    <td>Range context (enforced by <code>Require Range Context</code>, with one narrow exemption: the raid's own fresh break)</td>
+  </tr>
+</table>
+<p>
+<code>Signal Direction Mode</code> chooses what may fire: <code>Continuation</code> (default), <code>Reversal</code>,
+or <code>Both</code> (the fade is tried first — it is the more specific event — and every signal carries its setup
+label on the card, in the panel, the journal and the CSV).
+</p>
+
+<h3>12.2 The gate gauntlet (in evaluation order)</h3>
+<p>Every gate below must pass. Each rejection is counted by reason and shown on the panel's <code>Rejections</code> line.</p>
+<table>
+  <tr><th>#</th><th>Gate</th><th>What it rejects</th><th>Parameters</th></tr>
+  <tr><td>1</td><td>Enabled</td><td>—</td><td><code>Enable Nexus Signals</code></td></tr>
+  <tr><td>2</td><td>Cooldown</td><td>Signal spam from one impulse</td><td><code>Signal Cooldown</code> (10 bars)</td></tr>
+  <tr><td>3</td><td>Session filter</td><td>Dead hours (Sydney lull, off-hours rollover) — if you opt in</td><td><code>Filter Signals By Session</code> + per-session allows</td></tr>
+  <tr><td>4</td><td>News blackout</td><td>Your listed UTC news times ± window</td><td><code>News Blackout</code>, times list, ± minutes</td></tr>
+  <tr><td>5</td><td>Max spread</td><td>Trading into a widened market</td><td><code>Max Spread (points)</code> (0 = off)</td></tr>
+  <tr><td>6</td><td>Bar range cap</td><td><b>News-explosion bars</b> — zone+break+spike in one candle; the entry is already untradable</td><td><code>Max Signal Bar Range (x ATR)</code> (4)</td></tr>
+  <tr><td>7</td><td>Volume anomaly</td><td>Quiet bars (below ratio) <b>and absurd spikes</b> (above cap — a data print or a headline, not a setup)</td><td><code>Volume Anomaly Ratio</code> (1.5×), <code>Max Volume Spike</code> (8×)</td></tr>
+  <tr><td>8</td><td>Setup logic</td><td>Continuation: no fresh matching BOS/CHoCH, no strong zone at the entry location. Reversal: no fresh sweep, no SFP close, chase too far, wrong context</td><td>Direction mode + reversal bounds + entry-location mode + zone score floor</td></tr>
+  <tr><td>9</td><td>HTF veto</td><td>Trading straight into the higher-timeframe trend (optional)</td><td><code>Require HTF Confirmation</code></td></tr>
+  <tr><td>10</td><td>Plan gates</td><td>Gross R:R below floor; <b>net</b> R:R after spread below floor; risk narrower than N spreads (micro-stop fiction no broker executes)</td><td><code>Minimum R:R</code> (0.8), <code>Minimum NET R:R</code> (1.0), <code>Minimum Plan Risk (x spread)</code> (3)</td></tr>
+</table>
+<div class="callout warn">
+  <strong>Important — gates 6, 7 and 10 are what make the signals tradable</strong>
+  They exist because the flattering signals are the dangerous ones: the news bar with a beautiful structure break
+  4 ATR away from anything, the "32:1 R:R" plan whose stop is two ticks wide, the spike print that is really a
+  data error. The engine <b>actively rejects its own best-looking numbers</b> when they cannot be executed.
+  Do not disable these gates to "get more signals" — you will get more of exactly the signals that lose.
+</div>
+
+<h3>12.3 Entry-location modes (where the close must sit)</h3>
+<table>
+  <tr><th>Mode</th><th>Rule</th><th>Character</th></tr>
+  <tr><td><code>Touching Zone</code> (default)</td><td>The bar must actually trade through the zone, and the close must stay within zone height + 5 pips of it</td><td>The weakest rule that still guarantees the level took part in the bar</td></tr>
+  <tr><td><code>Inside Zone</code></td><td>The close is inside the zone</td><td>Stricter reaction proof</td></tr>
+  <tr><td><code>Near Equilibrium</code></td><td>The close sits within N% of the zone height from its middle</td><td>Best-price discipline</td></tr>
+  <tr><td><code>Retraced Into Zone</code></td><td>Close inside AND at least N% retraced from the far edge (discount half for longs, premium for shorts)</td><td>The strictest — no chasing</td></tr>
+  <tr><td><code>Anywhere</code></td><td>Close within zone height + tolerance (v1 behaviour)</td><td>Most signals, most noise — not recommended</td></tr>
+</table>
+<p>
+Liquidity pools are treated as <b>levels, not areas</b>: their band is a fraction of the equal-level tolerance, so
+they are judged by a fixed 5-pip direction tolerance instead of the entry mode — a thin pool is never asked for a
+sub-pip close.
+</p>
+
+<h3>12.4 What a fired signal produces</h3>
+<ol>
+  <li>A <b>NEXUS marker</b> on the signal bar (▲ lime below the bar for a long, ▼ red above for a short) plus a coloured vertical line.</li>
+  <li>A <b>trade plan</b> (Module 4.5): entry, structural stop, TP1/TP2/TP3 — validated so the stop is always on the risk side and the targets on the reward side, or the plan does not exist at all.</li>
+  <li>The <b>signal card</b> (Module 4.4) with the grade, gates, setup label and the ADVICE block.</li>
+  <li>A <b>journal entry</b> (Module 4.6) with the full plan and the live/replay flag.</li>
+  <li><b>Alerts</b>: a sound and an <code>[LVN ALERT]</code> line in the cTrader log — live signals only, never during the history replay.</li>
+</ol>
+
+<h2 id="s1-card">13. The Signal Card &amp; Grades (Module 4.4)</h2>
+<p>
+The card is a corner-locked static text block (bottom-left by default) that mirrors the <b>most recent accepted
+signal</b> — it is present right after you attach the indicator, follows its plan while the plan lives, then
+collapses into a compact RESULT card reporting the outcome. It is the product's dashboard at the moment of decision.
+</p>
+<h3>13.1 Grades — a checklist, not a prophecy</h3>
+<table>
+  <tr><th>Grade</th><th>Requirements</th><th>Reading</th></tr>
+  <tr><td><b>A+</b></td><td>Zone Volume Score ≥ <code>Very Strong</code> (80) AND all four gates passed AND HTF aligned (waived when MTF is off — there is nothing to align to)</td><td>The full confluence: busy level, structure, volume, regime agreement</td></tr>
+  <tr><td><b>A</b></td><td>Score ≥ <code>Strong</code> (60) AND all gates passed</td><td>The working grade — most taken trades should live here</td></tr>
+  <tr><td><b>B</b></td><td>Score ≥ Strong AND at least 3 of 4 gates</td><td>Watchlist material; the card tells you which gate failed</td></tr>
+  <tr><td><b>C</b></td><td>Anything else</td><td>Not shown by default (<code>Toast: Minimum Grade</code> = A)</td></tr>
+</table>
+<p>
+The four gates on the card: <b>(1)</b> zone score above the signal floor; <b>(2)</b> structure confirmation — a fresh
+matching BOS/CHoCH for continuations, or the SFP close itself for reversals (a reversal is never punished for lacking
+the very break that contradicts it); <b>(3)</b> the volume anomaly, judged on the <i>same</i> time-of-day baseline the
+engine used; <b>(4)</b> HTF context not opposing. Below the grade the card prints the grade's <b>own track record on
+your feed</b> — <code>Track A: 12 closed, avg +0.31R, win 58%</code> — so the letter is never read without its history.
+</p>
+
+<h3>13.2 Card modes &amp; lifetime</h3>
+<ul>
+  <li><b>Lifecycle</b> (default): the card stays while the plan is actionable, carrying a live <code>STATUS LIVE n bars left</code> (or <code>STATUS LIMIT PENDING @ price</code> for an unfilled limit), then becomes the RESULT card for the configured hold.</li>
+  <li><b>Timer</b>: the classic auto-hide countdown.</li>
+  <li><b>Always</b>: never hides (not recommended — a dead plan keeps showing numbers).</li>
+  <li>A card restored from the history replay after attach / timeframe switch is tagged <code>[history]</code> and prints its <b>true age</b> ("95 bars ago") — an old outcome can never masquerade as breaking news. Countdowns arm on the first live tick, so a deep replay can never swallow the card before you see it.</li>
+</ul>
+
+<figure>
+  <img src="images/07_toast_grade_a_plus.png" alt="Grade A+ card">
+  <figcaption>A LIVE grade-A+ card: zone block, gate count, the grade's track record, setup label, the full TP1–TP3 ladder with R multiples, gross and net R:R, the size hint, the ADVICE block and the STATUS line.</figcaption>
+</figure>
+
+<figure>
+  <img src="images/08_toast_grade_a_bad_rr.png" alt="Grade A card rejected by the plan gates">
+  <figcaption>Why grades are not permissions: a text-book grade-A setup with R:R 1:0.3 and an opposing H4 vote. The plan gates (min R:R, net R:R, micro-stop) reject what the chart cannot pay for — the rejection counter on the panel keeps the reason, so "no trade" stays an explanation instead of a mystery.</figcaption>
+</figure>
+
+<h2 id="s1-plan">14. Trade Plan Projection &amp; Life-Cycle (Module 4.5)</h2>
+<h3>14.1 The projection</h3>
+<p>
+From the signal bar the plan is drawn on the chart: a solid silver <b>ENTRY</b> line, a dotted red <b>STOP</b> line
+(with its distance in pips), <b>TP1</b> (solid-ish), <b>TP2</b> and a dimmer <b>TP3</b> (each labelled with price and
+R multiple), plus translucent risk and reward boxes and a header with direction, grade and capped R:R
+("1 : 5+" above the display cap — the raw value lives in the journal). The projection lives for
+<code>Trade Plan Horizon</code> bars (default 60) and is then removed automatically — no orphans, no manual cleanup.
+</p>
+<h3>14.2 Stop &amp; target construction</h3>
+<ul>
+  <li><b>Stop</b>: for a long — the deepest of {zone bottom, active swing low, and for reversals the <b>sweep extreme</b> and the signal bar's low}, minus a 2-tick buffer; mirrored for shorts. If no structural reference exists on the risk side, the plan declares itself <b>non-structural</b>, reports R:R = unknown (0) and is rejected by the gates rather than printed with an absurd ratio.</li>
+  <li><b>Targets</b>: the nearest and second- and third-nearest <i>live</i> (unswept) opposite-side liquidity pools, capped at <code>Max Target Distance (x ATR)</code> — a pool 300 pips away is real liquidity but not a first objective. Beyond the cap, volatility-scaled fallbacks take over (2× / 4× / 6× ATR), then labelled pip fallbacks. Every rung says what it is made of ("EQH x2 pool", "2x TP1", "fallback 4x ATR").</li>
+</ul>
+<h3>14.3 The life-cycle — six objective rules, first hit wins, latched</h3>
+<table>
+  <tr><th>Status</th><th>Trigger</th><th>Booked as</th></tr>
+  <tr><td><b>STOPPED</b></td><td>Price traded the stop (a gap through it is measured at the open; a bar touching both stop and TP1 is read conservatively as the stop)</td><td>−1R (or worse on a gap)</td></tr>
+  <tr><td><b>TP1 TAGGED</b></td><td>Price traded TP1 on any bar after the fill bar</td><td>+R of the TP1 multiple</td></tr>
+  <tr><td><b>ZONE GONE</b></td><td>The signal zone was mitigated/retired <i>after</i> the entry (the state it had on the signal bar is the premise, not the invalidation — the reaction that creates a signal usually fills its own zone)</td><td>Floating R at that close</td></tr>
+  <tr><td><b>STRUCTURE FLIP</b></td><td>A BOS/CHoCH against the plan after the signal bar</td><td>Floating R at that close</td></tr>
+  <tr><td><b>SUPERSEDED</b></td><td>A newer Nexus signal replaced this plan (or the plan cap pushed it out)</td><td>Floating R at that close — never a fake break-even</td></tr>
+  <tr><td><b>EXPIRED</b></td><td>The horizon ran out</td><td>Floating R at that close</td></tr>
+  <tr><td><b>LIMIT PENDING</b></td><td>(open state) a limit order waiting for its price</td><td>—</td></tr>
+  <tr><td><b>NOT FILLED</b></td><td>The limit was cancelled by horizon/premise-death, <b>or a gap would have filled it beyond its own stop</b> (no venue opens that position)</td><td>No R — counted, never measured</td></tr>
+</table>
+<p>
+The life-cycle also advances <b>intrabar</b>: a stop taken mid-bar is reported the moment it happens, and every
+outcome is latched — a wick that retracts cannot un-stop a trade. While a position is open, the plan tracks
+<b>MFE / MAE</b> (maximum favourable / adverse excursion in R from the actual fill), including the death bar of
+every exit type.
+</p>
+<h3>14.4 Market vs limit entries</h3>
+<ul>
+  <li><code>Market at close</code> (default): the entry is the signal bar's close — filled by definition.</li>
+  <li><code>Limit at zone EQ</code>: the plan bids/asks the zone equilibrium for a pullback entry. The whole plan (stop, targets, R:R, size) is measured from the limit price. If the equilibrium sits on the wrong side of the close, the plan silently falls back to market with an honest note. While unfilled the card reads <code>LIMIT PENDING</code>; a bar that gaps through the limit fills at the <b>better open price</b>; TP1 is never booked on the fill bar itself (the intrabar order of touches is unknowable); a never-traded order ends <b>NOT FILLED</b> and contributes nothing to your statistics.</li>
+</ul>
+
+<figure>
+  <img src="images/17_result_card_stopped.png" alt="Trade plan projection and its outcome">
+  <figcaption>A plan's whole life in one frame: the projection lines (entry / stop / TP with R multiples) anchored at the signal bar, the structure labels (BOS/CHoCH) that built the thesis, and the red result card — STOPPED at −1.0R with the reason and the timestamp. The same frame on a winner shows "✓ TP1 +2.0R".</figcaption>
+</figure>
+
+<h2 id="s1-advice">15. The Trade Advice Block (new in v2.3.0)</h2>
+<p>
+Three lines at the bottom of the card answer the questions a trader actually has at the moment of decision —
+every figure from live data or your own journal, never a probability:
+</p>
+<pre>ADVICE ▲ LONG  signal 01 May 12:00 UTC (LDN)
+  hold &lt;= 60 bars  (~5h, ~5 H4 bars) - then exit or re-assess
+  adverse: max 20p = 1.0R at the stop; typical MAE -0.42R (n=12)</pre>
+<ul>
+  <li><b>(a) WHEN</b> — the signal bar's time (UTC) and session.</li>
+  <li><b>(b) HOW LONG the premise lives</b> — the plan horizon in bars, translated into <b>wall-clock time</b> using your series' own median bar step, and — with MTF on — into <b>higher-timeframe bars</b>, because "60 bars" is five hours on M5 and ten days on H4. Past that line the plan expires by design: exit or re-assess, do not "hold and hope". This is the number to consult when price goes against you and you are deciding whether the idea is merely early or simply wrong.</li>
+  <li><b>(d) HOW FAR price may travel against you</b> — two honest figures: the <b>contractual maximum</b> (your stop distance in pips and R — beyond it there is no position, only history) and the <b>empirical expectation</b>: the average MAE of your feed's measured trades with its sample size. Adverse movement inside the typical MAE is the plan breathing; consistently beyond it means the entry class is worse than your record — that is data, not opinion.</li>
+  <li><b>(c) The ladder</b> — TP1/TP2/TP3 and the stop live in the plan section directly above, each with its R multiple.</li>
+</ul>
+<p>The block is switchable (<code>Toast: Show Trade Advice</code>); with it off, the classic card returns, including the one-line "When" stamp.</p>
+
+<h2 id="s1-journal">16. Signal Journal &amp; Performance Statistics (Module 4.6)</h2>
+<p>
+Every accepted signal is recorded with its full plan (entry/stop/TP1–3, gross and net R:R), grade, setup, session,
+spread, zone, gate count, fill state (market/limit, filled or not, fill time), MFE/MAE and — when the plan resolves —
+the outcome in R with its status and holding time. The panel block reports:
+</p>
+<pre>Journal      : 34 signals | 28 closed | 3 open | 2 not filled | 1 abandoned
+               history replay: 12 entries EXCLUDED from the stats below (live record only)
+               TP1 first 11 (46%) | stop 9 | other 4
+               avg +0.31R  best +2.00R  worst -1.00R  win 58%
+               MFE avg +1.12R   MAE avg -0.44R
+               PF 1.42  maxDD 3.2R  worst streak 4  t=+1.81  edge not yet significant
+               by grade: A+ +0.52R 62% (13)  A +0.14R 54% (11)
+               grade check: A+ beats A by +0.38R (n=13/11)</pre>
+<ul>
+  <li><b>Populations never mix.</b> Not-filled orders, abandoned entries (a timeframe switch destroyed their plans) and — by default — history-replay signals are counted but excluded from every R aggregate. What you read is your <b>live record</b> on this feed. (<code>Journal: Count History Replay In Stats</code> opts the replay back in.)</li>
+  <li><b>Performance-risk line (v2.2.0+)</b>: Profit Factor, max drawdown of the cumulative R curve, worst losing streak, and the expectancy's <b>t-statistic</b> with a blunt verdict: <code>edge not yet significant</code> / <code>edge significant at ~95%</code> / <code>NEGATIVE edge significant</code>. This is the single most important sentence the product prints — see Section 3.</li>
+  <li><b>Grade calibration</b>: per-grade averages and win rates, plus an explicit grade check once both A+ and A hold ≥ 10 measured closes — including the sentence the letters alone never say: "A+ does NOT beat A on this feed". The card quotes the same record next to every new letter.</li>
+  <li><b>CSV export</b> (to the cTrader log — file writes would need permissions the product refuses to take): 30 columns, every row exactly the header's field count, printed every N closes: <code>time, symbol, timeframe, direction, setup, grade, zone, session, htf_aligned, volume_score, gates, entry, stop, tp1, tp2, tp3, rr_gross, rr_net, spread_points, entry_type, filled, fill_time, source, status, result_r, held_bars, mfe_r, mae_r, outcome_time, plan_key</code> — the last column (v2.3.5) is the join key with the AutoTrader's execution CSV.</li>
+</ul>
+
+<figure>
+  <img src="images/23_panel_signal_journal_lines.png" alt="Journal and rejection lines">
+  <figcaption>The panel's evidence block, line by line: the last signal with its full gate trail (zone, score, bar traded through, structure OK, HTF OK, context, session), the trade-plan line, the journal populations — note <i>"history replay: 3 entries EXCLUDED from the stats below (live record only)"</i> — and the rejection counters by reason.</figcaption>
+</figure>
+
+<h2 id="s1-panel">17. Info Panel, Context Badge, Session Strip (Module 4.2)</h2>
+<ul>
+  <li><b>Info panel</b> (top-left by default, position configurable): context and last structure event with age; active BSL/SSL with signed pip distances; PDH/PDL/PWH/PWL with distances; the nearest live zones sorted by distance (score, range or mid price, signed pip distance, STRONG flag, "*" on swept pools); the volume block (bar vs baseline %, rolling, same-hour, mode); squeeze state; profile POC/VAH/VAL and price-vs-VA; the last Nexus signal with its reason; the trade-plan block (levels, live position in R, pending-order state, or the dated outcome — the panel keeps answering "what did the last signal do?" after the projection is gone); the journal block; and the <b>Rejections</b> line — the top "no" reasons since attach, so "why hasn't it fired in three days?" is one glance, not guesswork. The panel refreshes at most once per <code>Panel Refresh (ms)</code> — reading speed, not tick speed.</li>
+  <li><b>Context badge</b> (top-right): one line — chart context arrow, the HTF context when MTF is on, SQUEEZE when active, and the last structure event with its level.</li>
+  <li><b>Session strip</b> (bottom-right): SYD / TKY / LDN / NY open-shut state with countdowns, on your configured UTC windows. The strip is the product's single session clock — the main panel deliberately no longer repeats it.</li>
+</ul>
+
+<figure>
+  <img src="images/09_panel_full.png" alt="Full info panel">
+  <figcaption>The full panel: context, structure, liquidity distances, prior levels, zone list, volume block, squeeze, profile, last signal, trade plan, journal and rejections.</figcaption>
+</figure>
+<figure>
+  <img src="images/12_context_badge.png" alt="Context badge">
+  <figcaption>The context badge — chart regime, HTF regime and the last structure event. Here the chart is BULLISH while H4 is BEARISH: exactly the disagreement the badge exists to make visible before you click.</figcaption>
+</figure>
+<figure>
+  <img src="images/13_session_strip.png" alt="Session strip">
+  <figcaption>The session strip with live countdowns (bottom-right).</figcaption>
+</figure>
+
+<h2 id="s1-mtf">18. Multi-Timeframe Mode (Module 4.3)</h2>
+<p>
+With <code>Enable Multi-Timeframe Mode</code> on, an independent structure + zone stack runs on the chosen higher
+timeframe (default H4) over <b>closed HTF bars only</b>:
+</p>
+<ul>
+  <li>HTF zones render semi-transparent (<code>HTF Transparency</code>) and carry an <code>[H4]</code> tag in their labels — and in signal reasons, cards and the journal when a signal reacts at an HTF level.</li>
+  <li>The HTF context (Bullish / Bearish / Range) feeds the badge, the card's HTF line, the optional <code>Require HTF Confirmation</code> veto and the A+ grade, and arbitrates reversal setups.</li>
+  <li>HTF zones share the chart registry and accumulate volume on chart bars — they carry a real Volume Score measured at your chart's resolution. Rendering is owned exclusively by the MTF pass: no delete/redraw churn, and an HTF zone that ages out loses its objects in the same pass.</li>
+  <li>Grade A+ needs HTF alignment only when MTF is on — without a higher timeframe there is nothing to align to, and A+ stays reachable.</li>
+</ul>
+
+<figure>
+  <img src="images/12_context_badge.png" alt="MTF disagreement badge">
+  <figcaption>MTF in one badge: "BULLISH | h4 BEARISH". The HTF column is the vote of the higher timeframe; when it opposes your chart context the card's HTF gate count drops and the advice block says so. On the chart, HTF zones arrive semi-transparent and tagged [h4].</figcaption>
+</figure>
+
+<h2 id="s1-watch">19. Multi-Symbol Watch (Module 4.7)</h2>
+<p>
+An optional board (off by default) listing up to <code>Watch: Max Symbols</code> symbols on a shared higher timeframe:
+each row shows the symbol's <b>last structural context</b> (BULL ▲ / BEAR ▼ / RANGE ◆ from its own swing-break scan),
+its <b>current price</b>, and the signed pip distance to its nearest resting <b>BSL / SSL</b> liquidity — where the
+neighbouring markets keep their stops. One throttled pass per refresh interval, no chart objects beyond one static
+text, no extra permissions. Since v2.4.2 the board sits in the <b>bottom-right corner with a permanent two-text-row gap above the
+chart's bottom edge</b> — the toast card's padding convention — and when the session strip is enabled it
+stacks above the strip, so the strip stays the bottom-most line and the live price area is never covered.
+The gap no longer depends on the strip being visible: the board breathes on every layout. A typo in
+the symbol list is kept as a visible "no data" row instead of silently missing.
+</p>
+
+<figure>
+  <img src="images/14_watch_board.png" alt="Watch board">
+  <figcaption>The watch board: HTF context, last price and signed BSL/SSL distances for each watched symbol — four markets' resting liquidity at a glance.</figcaption>
+</figure>
+
+<figure>
+  <img src="images/15_watch_board_padding.png" alt="Watch board above the session strip with a two-row gap">
+  <figcaption>Since v2.4.2 the board always keeps a two-text-row gap above the chart's bottom edge, and when the session strip is enabled it stacks above the strip — the live price area stays readable in both layouts.</figcaption>
+</figure>
+
+<h2 id="s1-alerts">20. Alerts, Position Sizing &amp; the Cost Model</h2>
+<h3>20.1 Alerts</h3>
+<ul>
+  <li><b>Signal alert</b>: the cTrader log receives <code>[LVN ALERT] Nexus LONG | EURUSD M15 :: reason | price | time</code> and (optionally) a platform notification sound. The indicator API has no popup channel — the log line and the corner card <i>are</i> the popup, and the sound is your eyes-free trigger.</li>
+  <li><b>Outcome alert</b>: when a plan ends — <code>STOPPED −1.0R after 5 bars</code>, <code>TP1 TAGGED +2.0R</code>, <code>NOT FILLED</code> (with the honest reason, including the gap-through-stop rejection) — horizon expiry and supersede are treated as bookkeeping and stay silent.</li>
+  <li><b>Squeeze alert</b>: optional, when a squeeze fires at the live edge.</li>
+  <li>All alerts are <b>live-edge only</b>: attaching the indicator to a deep history never machine-guns you with last month's signals.</li>
+</ul>
+<h3>20.2 Position size hint</h3>
+<p>
+With <code>Risk Per Plan (% of balance)</code> &gt; 0 (default 1%), the card and panel print the suggested volume for
+the plan — computed by the platform's own proportional-risk arithmetic from the plan's stop distance, rounded to your
+symbol's volume step. It is <b>display-only</b>: the product places nothing and never reads your money amounts itself.
+An unavailable account simply prints no line — a wrong size would be worse than none.
+</p>
+<h3>20.3 The cost model</h3>
+<ul>
+  <li>The <b>spread is re-read from the feed on every closed bar</b>; when a feed publishes none (some CFD/crypto symbols), a manual assumption wins, else a conservative instrument-class estimate applies (1 pip FX; 2 pips metals, indices and crypto — including the six-character crypto pairs). Anything assumed is flagged "(assumed)" on the panel so a cost figure is never mistaken for a quote.</li>
+  <li><b>Net R:R</b> = (reward − spread) / (risk + spread): you pay the spread twice, in and out. The card prints both ratios (capped for display at <code>Max Displayed R:R</code> — above it you see "5+"; gates, journal and CSV keep the raw value), and the gates judge the net one.</li>
+  <li><b>Micro-stop gate</b>: a plan whose entire risk is narrower than <code>Minimum Plan Risk (x spread)</code> (default 3) cannot be executed as printed and is rejected before anything is drawn, alerted or journaled.</li>
+  <li><b>v2.4.1 unit fix — re-run old backtests:</b> the spread is a <i>price difference</i> (Ask−Bid); pre-2.4.1 builds read it as a point count and re-multiplied by <code>TickSize</code>, making every cost gate (net R:R, max spread, micro-stop floor) silently see a near-zero cost. If you measured plans on v2.4.0 or older, those numbers were optimistic — the gates now charge what a broker actually charges.</li>
+</ul>
+<h3 id="s1-bridge">20.4 Signal Bridge — the robot feed (Module 4.8, new in v2.4.0)</h3>
+<p>
+The bridge is a one-way, file-based feed for the companion cBot <i>Liquidity &amp; Volume Nexus — AutoTrader</i>:
+on every <b>live</b> closed bar the indicator writes one atomic JSON frame — schema version, heartbeat, the current
+plan, a journal snapshot and the rejection counters — to <code>Documents/cAlgo/LVN/bridge/&lt;SYMBOL&gt;_&lt;TF&gt;.json</code>
+(temp file + atomic move, so a polling robot never reads a half-written frame). The robot's Verify / Follow modes read
+that frame; the bridge is never the robot's only channel.
+</p>
+<ul>
+  <li><b>Default OFF, and honest about permissions:</b> file I/O needs <code>AccessRights.FileSystem</code>. The store build ships <code>None</code>, so switching the bridge on without rebuilding logs the exact one-line attribute change once — then stays silent instead of spamming errors.</li>
+  <li><b>Measurement-neutral:</b> with the bridge ON the engine's canonical dumps are byte-identical to OFF (proven by the rig). Publishing observes; it never decides.</li>
+  <li><b>Live-edge only:</b> history replay publishes nothing — a backtest has no indicator instance, and a replayed frame would be a lie about "now".</li>
+</ul>
+
+<h2 id="s1-params">21. Complete Parameter Reference — 222 Parameters, 17 Groups</h2>
+<p>
+Every parameter with its default and a working description. Defaults in <b>bold</b>. Ranges shown where the dialog
+enforces them. All of them are cross-validated at start-up: contradictory combinations are reconciled to the safe
+side and reported in the log when <code>Debug Log</code> is on.
+</p>
+
+<figure>
+  <img src="images/11_params_nexus_signals.png" alt="Signal parameters">
+  <figcaption>Group 8 — the signal engine's gates. The most-touched group; read Section 12 before changing it.</figcaption>
+</figure>
+
+<h3>Group 0 — General (7)</h3>
+<table>
+  <tr><th>Parameter</th><th>Default</th><th>Description</th></tr>
+  <tr><td>Theme Preset (Light = white terminal)</td><td><b>Dark</b></td><td>Recolours the whole palette for a white terminal background. Apply first, then fine-tune individual colours if you like.</td></tr>
+  <tr><td>Max Active Zones (FVG / breakers / HTF)</td><td><b>50</b> (5–400)</td><td>Hard cap of the zone registry. When full, inactive zones are evicted first, then the oldest by time (never by index — HTF and chart zones coexist safely).</td></tr>
+  <tr><td>Max Liquidity Pools</td><td><b>30</b> (5–200)</td><td>Cap of the pool registry (EQH/EQL clusters, BSL/SSL, swept pools within their keep-window).</td></tr>
+  <tr><td>Max Chart Objects Per Module</td><td><b>200</b> (20–3000)</td><td>Per-family draw budget. Each name is counted once; the oldest object is evicted FIFO. This is why the chart never leaks objects on deep history.</td></tr>
+  <tr><td>Render History (bars)</td><td><b>400</b> (100–20000)</td><td>Only the last N bars from the live edge are drawn. Signals and the journal are NOT affected — the whole loaded history is always processed; this is purely a drawing budget.</td></tr>
+  <tr><td>Zone Redraw Interval (bars)</td><td><b>20</b> (1–200)</td><td>Scheduled refresh of stable zones (labels move toward the live edge). Dirty/new/mitigated zones redraw immediately regardless.</td></tr>
+  <tr><td>Debug Log</td><td><b>false</b></td><td>One-line history-pass report at attach (bars, signals found, newest signal age, plan outcome, card state and WHY it is or is not on screen), one line per card transition, settings-normalisation notes, per-bar rejection reasons at the live edge. The first place to look in Troubleshooting.</td></tr>
+</table>
+
+<h3>Group 1 — Swing Detection (9)</h3>
+<table>
+  <tr><th>Parameter</th><th>Default</th><th>Description</th></tr>
+  <tr><td>Swing Period (fractal legs)</td><td><b>5</b> (1–30)</td><td>Bars required on each side of a pivot. A swing at bar C publishes after bar C+Legs closes — larger legs mean fewer, stronger, later swings.</td></tr>
+  <tr><td>Max Stored Swings</td><td><b>1500</b> (100–6000)</td><td>Memory cap of the confirmed-swing list (oldest dropped first). 1500 covers months of M5.</td></tr>
+  <tr><td>Show Swing Markers</td><td><b>true</b></td><td>The ▼/▲ glyphs on confirmed swings.</td></tr>
+  <tr><td>Show Swing Prices</td><td><b>false</b></td><td>Price labels next to each swing glyph (more clutter, useful when mapping levels by hand).</td></tr>
+  <tr><td>Show Unconfirmed (repainting) Swings</td><td><b>false</b></td><td>Hollow preview glyphs on the forming bar (left-leg only). Repainting by definition; never feeds any module.</td></tr>
+  <tr><td>Swing Font Size</td><td><b>9</b> (5–24)</td><td>Glyph size.</td></tr>
+  <tr><td>Swing High Color / Swing Low Color / Unconfirmed Swing Color</td><td><b>Red / Green / Gray</b></td><td>Marker colours.</td></tr>
+</table>
+
+<h3>Group 2 — Structure (22)</h3>
+<table>
+  <tr><th>Parameter</th><th>Default</th><th>Description</th></tr>
+  <tr><td>Show Structure (BOS / CHoCH)</td><td><b>true</b></td><td>Master switch of the structure layer (lines, labels, active levels).</td></tr>
+  <tr><td>Show BOS / Show CHoCH</td><td><b>true / true</b></td><td>Per-event-type visibility.</td></tr>
+  <tr><td>Break Confirmation</td><td><b>Close</b></td><td><code>Close</code>: the bar must close beyond the level (fewer, stronger). <code>Wick</code>: any trade beyond (faster; one bar can then publish two events — both are drawn distinctly since v2.2.0).</td></tr>
+  <tr><td>Structure Line Thickness</td><td><b>1</b> (1–5)</td><td>Event line weight.</td></tr>
+  <tr><td>Extend Structure Line (bars)</td><td><b>5</b> (0–200)</td><td>How far right of the break bar the event line reaches.</td></tr>
+  <tr><td>Show Structure Labels / Show Broken Price In Label</td><td><b>true / false</b></td><td>The "BOS"/"CHoCH" text and the optional level price inside it.</td></tr>
+  <tr><td>Structure Font Size</td><td><b>8</b> (5–20)</td><td>Label size.</td></tr>
+  <tr><td>Max Structure Events On Chart</td><td><b>30</b> (5–300)</td><td>Draw budget for event lines and labels (oldest evicted).</td></tr>
+  <tr><td>Show Active BSL / SSL Structure Lines</td><td><b>true</b></td><td>The two dotted silver lines at the active swing high/low.</td></tr>
+  <tr><td>Enable Breaker Blocks</td><td><b>true</b></td><td>Last opposite candle before a broken swing becomes a zone. Independent of the FVG display switch (since v2.2.0 breakers always age out and mitigate correctly even with FVG display off).</td></tr>
+  <tr><td>Breaker Max Age (bars)</td><td><b>300</b> (20–3000)</td><td>Unmitigated breakers deactivate after this age.</td></tr>
+  <tr><td>Breaker Search Window (bars)</td><td><b>12</b> (3–50)</td><td>How far back from the broken swing the origin candle is searched.</td></tr>
+  <tr><td>Bullish/Bearish BOS Color</td><td><b>Lime / Red</b></td><td>Continuation-break colours.</td></tr>
+  <tr><td>Bullish/Bearish CHoCH Color</td><td><b>Aqua / Orange</b></td><td>Character-change colours.</td></tr>
+  <tr><td>Active Level Color</td><td><b>Silver</b></td><td>The BSL/SSL lines.</td></tr>
+  <tr><td>Breaker Block Color (legacy, unused)</td><td><b>Violet</b></td><td>Kept for preset compatibility; the two directional colours below are the live ones.</td></tr>
+  <tr><td>Bullish / Bearish Breaker Color</td><td><b>Lime / Red</b></td><td>Breaker zone colours.</td></tr>
+</table>
+
+<h3>Group 3 — Fair Value Gaps (18)</h3>
+<table>
+  <tr><th>Parameter</th><th>Default</th><th>Description</th></tr>
+  <tr><td>Show Fair Value Gaps</td><td><b>true</b></td><td>Detection AND display of FVG/iFVG zones. (Breaker maintenance runs regardless — v2.2.0.)</td></tr>
+  <tr><td>FVG Size Filter</td><td><b>AtrMultiple</b></td><td><code>None</code> / <code>Points</code> / <code>AtrMultiple</code> — which minimum-size rule applies.</td></tr>
+  <tr><td>FVG Min Size (points / pips)</td><td><b>3.0</b></td><td>Minimum gap height in pips when the filter is <code>Points</code>.</td></tr>
+  <tr><td>FVG Min Size (x ATR)</td><td><b>0.25</b></td><td>Minimum gap height as a fraction of ATR when the filter is <code>AtrMultiple</code> (scales across instruments and timeframes automatically).</td></tr>
+  <tr><td>ATR Period</td><td><b>14</b> (5–200)</td><td>Period of the internal SMA-of-True-Range used by every ATR-scaled rule in the product.</td></tr>
+  <tr><td>FVG Max Age (bars)</td><td><b>500</b> (20–5000)</td><td>Unmitigated gaps deactivate after this age.</td></tr>
+  <tr><td>Active FVG Extension (bars)</td><td><b>15</b> (1–500)</td><td>How far right of the live edge an active zone's rectangle extends.</td></tr>
+  <tr><td>Keep Mitigated Zones (bars, 0 = until age limit)</td><td><b>40</b> (0–2000)</td><td>How long a consumed zone lingers (faded) for context before deactivation.</td></tr>
+  <tr><td>Hide Mitigated Zones</td><td><b>true</b></td><td>Removes consumed FVG/breaker zones from sight. Applies to zones only — swept liquidity pools follow their own "Keep Swept Pools" lifetime (since v2.2.0).</td></tr>
+  <tr><td>Enable Inverse FVG</td><td><b>true</b></td><td>A fully consumed gap spawns its polarity-flipped inverse (orange). Inverses never re-flip.</td></tr>
+  <tr><td>Zone Fill Alpha - Weak / Strong</td><td><b>16 / 64</b></td><td>The fill-transparency range mapped from the Volume Score 0→100.</td></tr>
+  <tr><td>Bullish / Bearish / Inverse FVG Color</td><td><b>Lime / Red / Orange</b></td><td>Zone colours.</td></tr>
+  <tr><td>Show Volume Score Inside Zone</td><td><b>true</b></td><td>The score label (and short type tag) inside each zone.</td></tr>
+  <tr><td>Zone Label Font Size</td><td><b>7</b> (5–16)</td><td>Label size.</td></tr>
+  <tr><td>Show Zone Formation Time</td><td><b>false</b></td><td>Adds the zone's birth timestamp to its label.</td></tr>
+</table>
+
+<h3>Group 4 — Premium / Discount (9)</h3>
+<table>
+  <tr><th>Parameter</th><th>Default</th><th>Description</th></tr>
+  <tr><td>Show Premium / Discount Range</td><td><b>true</b></td><td>The tinted halves of the current dealing range.</td></tr>
+  <tr><td>Show OTE Levels (62 / 70.5 / 79)</td><td><b>true</b></td><td>The yellow optimal-entry retracement lines.</td></tr>
+  <tr><td>Range Extension (bars)</td><td><b>10</b> (1–500)</td><td>How far right the range boxes extend past the live edge.</td></tr>
+  <tr><td>Range Fill Alpha</td><td><b>10</b> (0–150)</td><td>Transparency of the premium/discount tints (keep low — they are background).</td></tr>
+  <tr><td>Range Label Font Size</td><td><b>8</b> (5–16)</td><td>Size of the RANGE HIGH / EQ 50% / RANGE LOW / OTE labels.</td></tr>
+  <tr><td>Premium / Discount / Equilibrium / OTE Color</td><td><b>Red / Green / Silver / Yellow</b></td><td>Range palette.</td></tr>
+</table>
+
+<h3>Group 5 — Liquidity (23)</h3>
+<table>
+  <tr><th>Parameter</th><th>Default</th><th>Description</th></tr>
+  <tr><td>Show Liquidity Pools</td><td><b>true</b></td><td>Master switch of Module 2 (pools, sweeps and — since signals can react at pools — effectively the liquidity side of the signal engine).</td></tr>
+  <tr><td>Show Equal Highs / Equal Lows</td><td><b>true</b></td><td>EQH/EQL cluster lines.</td></tr>
+  <tr><td>Show Single-Swing BSL / SSL</td><td><b>true</b></td><td>The gold/turquoise lines glued to the last unbroken swings.</td></tr>
+  <tr><td>Equal-Level Tolerance Mode</td><td><b>Points</b></td><td><code>Points</code> (pips) or <code>AtrMultiple</code> for the clustering tolerance.</td></tr>
+  <tr><td>Equal-Level Tolerance (points / pips)</td><td><b>2.0</b></td><td>Swings within this many pips of the running cluster average join it. Too tight: no EQH/EQL ever forms; too wide: unrelated levels merge.</td></tr>
+  <tr><td>Equal-Level Tolerance (x ATR)</td><td><b>0.25</b></td><td>The ATR-mode equivalent.</td></tr>
+  <tr><td>Minimum Touches For EQH / EQL</td><td><b>2</b> (2–10)</td><td>Swings needed for a cluster. 3 makes pools rarer but heavier.</td></tr>
+  <tr><td>Liquidity Lookback (bars)</td><td><b>500</b> (50–5000)</td><td>Clustering window and the age cap of EQ pools.</td></tr>
+  <tr><td>Liquidity Recalc Interval (bars)</td><td><b>5</b> (1–100)</td><td>How often clusters rebuild (a new confirmed swing forces an immediate rebuild; sweeps are checked every bar regardless).</td></tr>
+  <tr><td>Extend Liquidity Line (bars)</td><td><b>15</b> (1–500)</td><td>Right extension of active pool lines.</td></tr>
+  <tr><td>Keep Swept Pools (bars, 0 = hide immediately)</td><td><b>60</b> (0–1000)</td><td>How long a swept pool stays visible (grey dotted, "SWEPT", panel "*") — this window is what the Reversal setup fades inside; with a reversal-enabled Direction Mode the start-up validator will not let it be shorter than the sweep-age window.</td></tr>
+  <tr><td>Sweep Confirmation</td><td><b>Wick</b></td><td><code>Wick</code>: any trade beyond the level sweeps it (raids ARE wicks). <code>Close</code>: the bar must close beyond (fewer sweeps; each one is also a structural statement).</td></tr>
+  <tr><td>Equal Highs / Equal Lows Color</td><td><b>Orange / Aqua</b></td><td>Cluster colours.</td></tr>
+  <tr><td>Buy-Side / Sell-Side Liquidity Color</td><td><b>Gold / Turquoise</b></td><td>Single-swing BSL/SSL colours.</td></tr>
+  <tr><td>Swept Liquidity Color</td><td><b>Gray</b></td><td>The taken-out state.</td></tr>
+  <tr><td>Show Pool Formation Time</td><td><b>false</b></td><td>Birth timestamp in pool labels.</td></tr>
+  <tr><td>Liquidity Font Size / Line Thickness</td><td><b>8 / 1</b></td><td>Label size; base line weight (multi-touch pools thicken automatically).</td></tr>
+  <tr><td>Show Prior Day High / Low (PDH / PDL)</td><td><b>true</b></td><td>The completed-UTC-day extremes.</td></tr>
+  <tr><td>Show Prior Week High / Low (PWH / PWL)</td><td><b>true</b></td><td>The completed-ISO-week extremes (dotted, alpha 160).</td></tr>
+  <tr><td>Prior Levels Color</td><td><b>Gold</b></td><td>Colour of all four lines and labels.</td></tr>
+</table>
+
+<h3>Group 6 — Volume Nexus (17)</h3>
+<table>
+  <tr><th>Parameter</th><th>Default</th><th>Description</th></tr>
+  <tr><td>Volume Average Period (bars)</td><td><b>100</b> (10–2000)</td><td>Rolling-average window (the rolling component of the baseline and the panel's "roll(N)" read-out).</td></tr>
+  <tr><td>Volume Score: Strong Zone (&gt;=)</td><td><b>60</b> (10–100)</td><td>Score floor of the "Strong" bucket — and the signal engine's zone floor by default.</td></tr>
+  <tr><td>Volume Score: Very Strong Zone (&gt;=)</td><td><b>80</b> (10–100)</td><td>The A+-grade bucket (auto-raised to Strong if inverted).</td></tr>
+  <tr><td>Enable Volume Squeeze Detector</td><td><b>true</b></td><td>Module 3.4 master switch.</td></tr>
+  <tr><td>Squeeze: Volume Below (% of average)</td><td><b>60</b> (5–100)</td><td>A bar counts toward the streak while its volume is below this % of the time-of-day baseline.</td></tr>
+  <tr><td>Squeeze: Minimum Bars</td><td><b>5</b> (2–100)</td><td>Streak length that fires the state.</td></tr>
+  <tr><td>Squeeze: Require Zone Nearby</td><td><b>true</b></td><td>Fire only within proximity of an active zone — a squeeze against a level, not a squeeze at lunch.</td></tr>
+  <tr><td>Squeeze: Zone Proximity (points / pips)</td><td><b>15</b></td><td>That proximity, in pips from the close.</td></tr>
+  <tr><td>Squeeze Marker Color / Font Size</td><td><b>Yellow / 9</b></td><td>The "SQZ" glyph under the bar.</td></tr>
+  <tr><td>Squeeze Alert (to log)</td><td><b>false</b></td><td>Log the squeeze firing at the live edge.</td></tr>
+  <tr><td>Volume Baseline Mode</td><td><b>Blended</b></td><td>Rolling / Session / Blended — see Section 9.1.</td></tr>
+  <tr><td>Session Bucket Size (minutes)</td><td><b>60</b> (15–240)</td><td>Time-of-day bucket width. 60 is the balance; 30 sharpens seasonality on liquid FX.</td></tr>
+  <tr><td>Baseline Blend: Session Weight (%)</td><td><b>60</b> (0–100)</td><td>Blended mode weight (forced to 100/0 in Session/Rolling modes).</td></tr>
+  <tr><td>Baseline History (bars, 0 = all loaded)</td><td><b>5000</b> (0–100000)</td><td>Sliding window of the session buckets. 0 uses the entire loaded history (no window; O(1) memory — the old 6 GB allocation bug is history since v2.0.0).</td></tr>
+  <tr><td>Zone Score Half-Life (bars, 0 = lifetime average)</td><td><b>200</b> (0–5000)</td><td>Exponential decay of zone-volume contributions. 0 reproduces the v1 lifetime average exactly.</td></tr>
+  <tr><td>Max Volume Spike To Accept (x baseline, 0 = off)</td><td><b>8.0</b> (0–100)</td><td>Upper bound of the volume-anomaly gate: an absurd spike is a print or a headline, not a setup. Auto-raised to 2× the anomaly ratio if set below it.</td></tr>
+</table>
+
+<h3>Group 7 — Volume Profile (13)</h3>
+<table>
+  <tr><th>Parameter</th><th>Default</th><th>Description</th></tr>
+  <tr><td>Show Volume Profile</td><td><b>true</b></td><td>Histogram + POC/VAH/VAL master switch.</td></tr>
+  <tr><td>Profile Range</td><td><b>LastBars</b></td><td><code>LastBars</code> / <code>CurrentDay</code> / <code>CurrentWeek</code> / <code>CurrentMonth</code> — the calendar modes are true UTC periods, never rolling windows.</td></tr>
+  <tr><td>Profile Bars (Last Bars mode)</td><td><b>200</b> (50–5000)</td><td>Window of the LastBars mode.</td></tr>
+  <tr><td>Profile Rows (price bins)</td><td><b>24</b> (10–150)</td><td>Vertical resolution (clamped 8–200 internally).</td></tr>
+  <tr><td>Profile Width (bars)</td><td><b>10</b> (5–300)</td><td>Maximum histogram width in bar-widths.</td></tr>
+  <tr><td>Profile Offset From Last Bar (bars)</td><td><b>2</b> (1–200)</td><td>Gap between the last candle and the histogram.</td></tr>
+  <tr><td>Value Area (%)</td><td><b>70</b> (50–95)</td><td>Volume share defining VAH/VAL.</td></tr>
+  <tr><td>Profile Recalc Interval (bars)</td><td><b>5</b> (1–100)</td><td>Rebuild cadence.</td></tr>
+  <tr><td>Profile Histogram / POC / Value Area Color</td><td><b>Navy / Yellow / Aqua</b></td><td>Palette.</td></tr>
+  <tr><td>Show POC / VAH / VAL Lines</td><td><b>true</b></td><td>The three horizontal reference lines with labels.</td></tr>
+  <tr><td>Profile Font Size</td><td><b>8</b> (5–16)</td><td>Label size.</td></tr>
+</table>
+<h3>Group 8 — Nexus Signals (40)</h3>
+<table>
+  <tr><th>Parameter</th><th>Default</th><th>Description</th></tr>
+  <tr><td>Enable Nexus Signals</td><td><b>true</b></td><td>Master switch of the signal engine (the map keeps drawing with it off).</td></tr>
+  <tr><td>Require Strong Zone</td><td><b>true</b></td><td>Only zones scoring ≥ the minimum below may carry a signal.</td></tr>
+  <tr><td>Minimum Zone Score For Signal</td><td><b>60</b> (0–100)</td><td>The Volume Score floor. Also the floor for a swept pool to be fade-eligible.</td></tr>
+  <tr><td>Require BOS / CHoCH Confirmation</td><td><b>true</b></td><td>Continuation signals need a fresh matching structure event. (Reversals are confirmed by their SFP close instead — this switch never blocks a fade.)</td></tr>
+  <tr><td>Structure Confirmation Lookback (bars)</td><td><b>10</b> (1–200)</td><td>How recent the confirming break must be.</td></tr>
+  <tr><td>Signal Direction Mode</td><td><b>Continuation</b></td><td><code>Continuation</code> / <code>Reversal</code> / <code>Both</code> — which setups may fire (Section 12.1). <code>Both</code> tries the fade first and labels every signal.</td></tr>
+  <tr><td>Reversal: Max Sweep Age (bars)</td><td><b>10</b> (1–100)</td><td>A sweep older than this is history, not "liquidity is being taken now".</td></tr>
+  <tr><td>Reversal: Max Chase From Level (x ATR, 0 = off)</td><td><b>1.5</b> (0–10)</td><td>The SFP close must sit within this ATR distance of the swept level — the entry must be a fade, not a chase.</td></tr>
+  <tr><td>Reversal: Require Range Context</td><td><b>true</b></td><td>Fading into a trend is fighting the regime: require RANGE, with one narrow exemption — the trend reading IS the raid's own fresh break.</td></tr>
+  <tr><td>Require HTF Confirmation (MTF mode)</td><td><b>false</b></td><td>Vetoes signals that trade straight into the higher-timeframe context. Recommended ON with MTF enabled.</td></tr>
+  <tr><td>Require Volume Anomaly</td><td><b>true</b></td><td>The signal bar must be unusually busy — the footprint of participation.</td></tr>
+  <tr><td>Volume Anomaly Ratio (x average)</td><td><b>1.5</b> (0.5–10)</td><td>Bar volume ≥ ratio × the time-of-day baseline.</td></tr>
+  <tr><td>Signal Cooldown (bars)</td><td><b>10</b> (0–500)</td><td>Minimum bars between accepted signals — one impulse gets one signal.</td></tr>
+  <tr><td>Minimum Risk / Reward For Signal (0 = off)</td><td><b>0.8</b> (0–10)</td><td>Gross R:R floor on TP1.</td></tr>
+  <tr><td>Minimum NET Risk / Reward After Spread (0 = off)</td><td><b>1.0</b> (0–10)</td><td>(Reward − spread) / (risk + spread) floor — the ratio a real order experiences.</td></tr>
+  <tr><td>Minimum Plan Risk (x spread, 0 = off)</td><td><b>3.0</b> (0–50)</td><td>Rejects micro-stop plans no broker can execute (the "32:1 R:R" fiction).</td></tr>
+  <tr><td>Max Spread (points, 0 = off)</td><td><b>0</b> (0–500)</td><td>Blocks trading into a widened market. Points = the smallest price increment (ticks).</td></tr>
+  <tr><td>Assumed Spread When Feed Reports None (points, 0 = auto by instrument class)</td><td><b>0</b> (0–500)</td><td>Manual override for feeds that publish no spread; 0 lets the product estimate conservatively (1 pip FX; 2 pips metals / indices / crypto) and flag it "(assumed)".</td></tr>
+  <tr><td>Max Target Distance (x ATR, 0 = off)</td><td><b>6.0</b> (0–50)</td><td>Pools beyond this cap are not first objectives; volatility-scaled fallbacks take over.</td></tr>
+  <tr><td>Max Signal Bar Range (x ATR, 0 = off)</td><td><b>4.0</b> (0–20)</td><td>News-explosion bar filter (auto-raised to ≥ 1.0).</td></tr>
+  <tr><td>Min Zone Size (x ATR, 0 = off)</td><td><b>0.1</b> (0–5)</td><td>Rejects zones too thin to trade (pools are exempt — they are levels, not areas).</td></tr>
+  <tr><td>Entry Location Requirement</td><td><b>TouchingZone</b></td><td>The five close-location rules of Section 12.3.</td></tr>
+  <tr><td>Entry: Equilibrium Tolerance (% of zone height)</td><td><b>25</b> (1–100)</td><td>Tolerance of the <code>NearEquilibrium</code> mode.</td></tr>
+  <tr><td>Entry: Minimum Retrace Into Zone (%)</td><td><b>50</b> (0–100)</td><td>Depth requirement of the <code>RetracedIntoZone</code> mode.</td></tr>
+  <tr><td>Trade Plan Entry</td><td><b>MarketAtClose</b></td><td><code>Market at close</code> or <code>Limit at zone EQ</code> (fill-verified — Section 14.4).</td></tr>
+  <tr><td>Filter Signals By Session</td><td><b>false</b></td><td>Master switch of the session gate.</td></tr>
+  <tr><td>&nbsp;&nbsp;Allow: Sydney / Tokyo / London / New York</td><td><b>true × 4</b></td><td>Per-session allows; an overlap ("LDN+NY") passes if ANY open session is allowed.</td></tr>
+  <tr><td>&nbsp;&nbsp;Allow: Outside All Sessions</td><td><b>false</b></td><td>Off-hours signals (by default they are rejected when the filter is on — rollover is where spreads and fakeouts live).</td></tr>
+  <tr><td>News Blackout (UTC times list)</td><td><b>false</b></td><td>Master switch.</td></tr>
+  <tr><td>&nbsp;&nbsp;News Times UTC (comma separated HH:mm)</td><td><b>12:30,14:00,18:00</b></td><td>Your recurring high-impact times (parsed InvariantCulture — your terminal locale cannot change the blackout).</td></tr>
+  <tr><td>&nbsp;&nbsp;Blackout Window (+/- minutes)</td><td><b>15</b> (1–240)</td><td>Half-width of each blackout (wraps midnight correctly).</td></tr>
+  <tr><td>Show Signal Markers</td><td><b>true</b></td><td>The NEXUS ▲/▼ glyph and vertical line on signal bars.</td></tr>
+  <tr><td>Signal Font Size</td><td><b>11</b> (6–24)</td><td>Marker size.</td></tr>
+  <tr><td>Alert To Log (no popup API for indicators)</td><td><b>true</b></td><td>Writes the signal alert to the cTrader log as <code>[LVN ALERT] …</code>. (The cTrader indicator API has no popup channel; the card is the on-screen alert.)</td></tr>
+  <tr><td>Sound Alert</td><td><b>true</b></td><td>Platform notification sound on a live signal.</td></tr>
+  <tr><td>Bullish / Bearish Signal Color</td><td><b>Lime / Red</b></td><td>Marker and plan-header colours.</td></tr>
+</table>
+
+<h3>Group 9 — Info Panel (15)</h3>
+<table>
+  <tr><th>Parameter</th><th>Default</th><th>Description</th></tr>
+  <tr><td>Show Info Panel</td><td><b>true</b></td><td>The main panel.</td></tr>
+  <tr><td>Show Context Badge (top-right)</td><td><b>true</b></td><td>The one-line regime badge.</td></tr>
+  <tr><td>Show Session Strip (bottom-right)</td><td><b>true</b></td><td>The session clock strip — the product's only session read-out since v2.3.0 (the panel block was removed as a duplicate).</td></tr>
+  <tr><td>Panel Vertical / Horizontal Position</td><td><b>Top / Left</b></td><td>Panel corner.</td></tr>
+  <tr><td>Panel Font Size (unused - no font API on static text)</td><td><b>11</b></td><td>Kept for preset compatibility; screen-anchored text renders in the platform's chart font.</td></tr>
+  <tr><td>Panel Font Family (unused - no font API on static text)</td><td><b>Consolas</b></td><td>As above.</td></tr>
+  <tr><td>Panel Text / Accent Color</td><td><b>White / Aqua</b></td><td>Panel palette.</td></tr>
+  <tr><td>Panel: Zones Listed</td><td><b>6</b> (1–20)</td><td>How many nearest live zones the panel lists (nearest first).</td></tr>
+  <tr><td>Panel Refresh (ms)</td><td><b>1000</b> (250–10000)</td><td>Rebuild throttle — one hertz is faster than any human reads, and deep history stays fast.</td></tr>
+  <tr><td>Sydney / Tokyo / London / New York Session (UTC open-close)</td><td><b>22:00-07:00 / 00:00-09:00 / 08:00-17:00 / 13:30-20:00</b></td><td>Session windows driving the strip, the session gate and the card's session stamp. Cross-midnight ranges are supported; adjust to your broker's summer/winter shifts.</td></tr>
+</table>
+
+<h3>Group 10 — Multi-Timeframe (7)</h3>
+<table>
+  <tr><th>Parameter</th><th>Default</th><th>Description</th></tr>
+  <tr><td>Enable Multi-Timeframe Mode</td><td><b>false</b></td><td>Runs the HTF stack. Recommended ON for intraday charts (M5–H1).</td></tr>
+  <tr><td>Higher Timeframe</td><td><b>Hour4</b></td><td>Any timeframe above the chart's.</td></tr>
+  <tr><td>HTF Swing Period (fractal legs)</td><td><b>3</b> (1–20)</td><td>HTF swings need fewer legs — the bars are already bigger.</td></tr>
+  <tr><td>HTF: Show FVG Zones</td><td><b>true</b></td><td>HTF FVG detection + display (HTF breaker maintenance runs regardless — v2.2.0).</td></tr>
+  <tr><td>HTF: Show Structure Levels</td><td><b>true</b></td><td>HTF active BSL/SSL lines and events.</td></tr>
+  <tr><td>HTF Transparency (alpha 20-255)</td><td><b>80</b></td><td>HTF objects are background — keep them dim.</td></tr>
+  <tr><td>HTF Max Zones Rendered</td><td><b>15</b> (3–100)</td><td>Redraw cap per MTF pass.</td></tr>
+</table>
+
+<h3>Group 11 — Chart Clarity &amp; Performance (3)</h3>
+<table>
+  <tr><th>Parameter</th><th>Default</th><th>Description</th></tr>
+  <tr><td>Max Zones Drawn (0 = unlimited)</td><td><b>12</b> (0–100)</td><td>Newest-first cap on drawn FVG/breaker zones. Not a signal limit — only ink.</td></tr>
+  <tr><td>Max Liquidity Lines Drawn (0 = unlimited)</td><td><b>8</b> (0–60)</td><td>Same for pools (including swept ones inside their keep-window).</td></tr>
+  <tr><td>Do Not Draw Zones Older Than (bars, 0 = unlimited)</td><td><b>250</b> (0–10000)</td><td>Age filter for drawn zones.</td></tr>
+</table>
+
+<h3>Group 12 — Signal Toast (11)</h3>
+<table>
+  <tr><th>Parameter</th><th>Default</th><th>Description</th></tr>
+  <tr><td>Show Signal Toast (corner card)</td><td><b>true</b></td><td>The card itself.</td></tr>
+  <tr><td>Toast: Minimum Grade (C / B / A / A+)</td><td><b>A</b></td><td>Grades below this never reach the card (the journal still records every accepted signal).</td></tr>
+  <tr><td>Toast: Card Mode</td><td><b>Lifecycle</b></td><td><code>Lifecycle</code> (follows the plan, then the RESULT card) / <code>Timer</code> / <code>Always</code>.</td></tr>
+  <tr><td>Toast: Auto-Hide (seconds, Timer mode / 0 = keep)</td><td><b>12</b> (0–120)</td><td>Timer-mode countdown.</td></tr>
+  <tr><td>Toast: Result Card Hold (seconds, 0 = keep until the next signal)</td><td><b>60</b> (0–600)</td><td>How long the outcome recap stays. 0 keeps it until the next signal — that has always been the behaviour, and the label now says so.</td></tr>
+  <tr><td>Toast: Restore Card After Attach / TF Switch</td><td><b>true</b></td><td>Rebuilds the most-recent-signal card from the replay (tagged <code>[history]</code> when it recaps an old outcome). Off = the strict "nothing from history" behaviour.</td></tr>
+  <tr><td>Toast: Show Trade Advice (time / hold / adverse)</td><td><b>true</b></td><td>The ADVICE block (Section 15). Off restores the classic card with the "When" line.</td></tr>
+  <tr><td>Toast: Font Size / Font Family (unused - no font API on static text)</td><td><b>11 / Consolas</b></td><td>Preset compatibility; the card renders in the chart font.</td></tr>
+  <tr><td>Toast: Vertical / Horizontal Position</td><td><b>Bottom / Left</b></td><td>Card corner. Bottom-Right automatically gains two padding lines so it never overlaps the session strip.</td></tr>
+</table>
+
+<h3>Group 13 — Trade Plan (11)</h3>
+<table>
+  <tr><th>Parameter</th><th>Default</th><th>Description</th></tr>
+  <tr><td>Draw Trade Plan On Signal (entry / stop / TP1 / TP2 / TP3)</td><td><b>true</b></td><td>The chart projection. The plan OBJECT exists even with this off — the card, panel and journal read it; only the drawing is optional.</td></tr>
+  <tr><td>Trade Plan Horizon (bars)</td><td><b>60</b> (5–1000)</td><td>Projection lifetime and the plan's expiry (min 5). This is the "hold &lt;= N bars" of the ADVICE block.</td></tr>
+  <tr><td>Trade Plan: Price Labels / Risk-Reward Boxes</td><td><b>true / true</b></td><td>Label and box layers of the projection.</td></tr>
+  <tr><td>Trade Plan: Max Plans On Chart</td><td><b>3</b> (1–10)</td><td>Plan cap; a pushed-out plan is marked SUPERSEDED with its honest floating R (never silently dropped, never a fake break-even).</td></tr>
+  <tr><td>Trade Plan: Font Size</td><td><b>8</b> (5–16)</td><td>Projection label size.</td></tr>
+  <tr><td>Risk Per Plan (% of balance, 0 = off)</td><td><b>1.0</b> (0–10)</td><td>The size hint: the volume whose loss over the plan's stop equals this % of balance (platform arithmetic, display-only).</td></tr>
+  <tr><td>Max Displayed R:R (0 = unlimited)</td><td><b>5.0</b> (0–100)</td><td>Printed ratios cap at "5+" — gates, journal and CSV keep the raw value.</td></tr>
+  <tr><td>Trade Plan: Entry / Stop / Target Color</td><td><b>Silver / Red / Lime</b></td><td>Projection palette.</td></tr>
+</table>
+
+<h3>Group 14 — Signal Journal (8)</h3>
+<table>
+  <tr><th>Parameter</th><th>Default</th><th>Description</th></tr>
+  <tr><td>Show Signal Journal (statistics panel block)</td><td><b>true</b></td><td>The panel's journal block including the performance-risk line.</td></tr>
+  <tr><td>Journal: Max Signals Remembered</td><td><b>200</b> (10–2000)</td><td>Ring size; the oldest entries drop out first (export regularly if you analyse long spans).</td></tr>
+  <tr><td>Journal: Export CSV To Log</td><td><b>Off</b></td><td><code>PrintCsvToLog</code> dumps the 30-column table into the cTrader log (right-click → Copy). Files would require permissions the product refuses.</td></tr>
+  <tr><td>Journal: Print CSV Every N Closed Signals</td><td><b>25</b> (1–500)</td><td>Export cadence, in closed outcomes.</td></tr>
+  <tr><td>Journal: Count History Replay In Stats</td><td><b>false</b></td><td>Default: panel aggregates describe your LIVE record only; replay entries stay counted, exported and visibly excluded.</td></tr>
+  <tr><td>Alert When A Plan Ends (stop / TP1)</td><td><b>true</b></td><td>Outcome alerts master switch (horizon/supersede stay silent bookkeeping).</td></tr>
+  <tr><td>&nbsp;&nbsp;Outcome To Log (no popup API for indicators)</td><td><b>true</b></td><td><code>[LVN ALERT] Nexus plan STOPPED …</code> in the log, with the honest reason (including the gap-rejection note).</td></tr>
+  <tr><td>&nbsp;&nbsp;Outcome Sound</td><td><b>false</b></td><td>Sound on outcomes (positive for TP1, announcement otherwise).</td></tr>
+</table>
+
+<h3>Group 15 — Symbol Watch (7)</h3>
+<table>
+  <tr><th>Parameter</th><th>Default</th><th>Description</th></tr>
+  <tr><td>Show Multi-Symbol Watch</td><td><b>false</b></td><td>The board.</td></tr>
+  <tr><td>Watch Symbols (comma separated)</td><td><b>EURUSD,GBPUSD,USDJPY,XAUUSD</b></td><td>Broker-exact names; an unresolvable name is shown as a "no data" row (typos stay visible). No fallback to your chart's data ever happens — a wrong price under another symbol's name would be worse than none.</td></tr>
+  <tr><td>Watch Timeframe</td><td><b>Hour4</b></td><td>The shared HTF for all rows.</td></tr>
+  <tr><td>Watch Refresh (seconds)</td><td><b>5</b> (1–120)</td><td>Rescan throttle.</td></tr>
+  <tr><td>Watch: Max Symbols</td><td><b>8</b> (1–20)</td><td>Row cap.</td></tr>
+  <tr><td>Watch: History Depth (bars)</td><td><b>400</b> (50–5000)</td><td>Scan window per symbol.</td></tr>
+  <tr><td>Watch: Fractal Legs</td><td><b>3</b> (1–10)</td><td>Swing definition of the scan.</td></tr>
+</table>
+<h3>Group 16 — Signal Bridge (2, new in v2.4.0)</h3>
+<table>
+  <tr><th>Parameter</th><th>Default (range)</th><th>What it does</th></tr>
+  <tr><td>Bridge: Publish Signals For Robot</td><td><b>Off</b></td><td>Publishes one atomic JSON frame per live closed bar for the companion AutoTrader (Verify / Follow modes). Requires rebuilding the source with <code>AccessRights.FileSystem</code>; without it the product logs the needed one-line change once and stays inert.</td></tr>
+  <tr><td>Bridge: Folder (empty = Documents/cAlgo/LVN/bridge)</td><td><b>(empty)</b></td><td>Frame destination override. Frames are <code>&lt;SYMBOL&gt;_&lt;TF&gt;.json</code>, written temp+move so readers never see a partial frame.</td></tr>
+</table>
+
+<div class="callout tip">
+  <strong>Tip</strong>
+  You do not need to touch 222 parameters. The defaults are the audited configuration: every interplay that could
+  silently disable the product (spike cap below the anomaly ratio, an inverted score scale, a reversal mode with a
+  zero swept-pool window, a one-minute bucket…) is reconciled at start-up. Change what your style demands —
+  Direction Mode, sessions, horizon, risk % — and read the start-up log line once with <code>Debug Log</code> on.
+</div>
+<!-- ============================================================
+     SECTION 2 — HOW TO USE
+     ============================================================ -->
+<h1 id="section-2" style="font-size:40px;border-bottom:3px solid var(--accent);padding-bottom:12px;">SECTION 2 — HOW TO USE</h1>
+<p style="font-size:18px;color:var(--text-soft);">The working trader's guide: every glyph, every line, every decision.</p>
+
+<h2 id="s2-install">22. Installation &amp; First Launch</h2>
+<ol class="steps">
+  <li><b>Install.</b> In cTrader: <i>Automate</i> → install the purchased <code>.algo</code> (or, for a source build: create an indicator named "Liquidity and Volume Nexus", paste the source, press F6 — expected result: 0 errors, 0 warnings), then drag it onto the chart.</li>
+  <li><b>Pick your theme.</b> White terminal? Set <code>Theme Preset = Light</code> first — the whole palette re-maps.</li>
+  <li><b>Choose your timeframe.</b> The product works on any TF. Guidance: M5–M15 for intraday signals, H1–H4 for swing. Enable <code>Multi-Timeframe Mode</code> on anything below H4 (default HTF: H4).</li>
+  <li><b>Set your sessions.</b> Check the four session windows against your broker's UTC schedule (they drive the strip, the session gate and the card's session stamp).</li>
+  <li><b>Let the history pass finish.</b> On attach the engine replays the loaded history once (seconds, not minutes) — the journal fills with <code>[history]</code>-tagged replay entries and the card shows the most recent signal, correctly aged. With <code>Debug Log</code> on you get one summary line: bars loaded, signals found, newest plan's outcome and the card's state.</li>
+  <li><b>Read the panel once.</b> Context, spread (note "(assumed)" if your feed publishes none), baseline %, and the <code>Rejections</code> line — it already tells you what the engine is waiting for.</li>
+</ol>
+
+<figure>
+  <img src="images/03_params_dark.png" alt="Parameter dialog, dark theme">
+  <figcaption>The dialog as it opens on a dark terminal (group 0 — General): caps, budgets and the theme preset. Every field is cross-validated at start-up; contradictory values are reconciled to the safe side and reported in the log.</figcaption>
+</figure>
+<figure>
+  <img src="images/04_params_light.png" alt="Parameter dialog, light theme">
+  <figcaption>The same dialog after <code>Theme Preset = Light</code>: the whole palette re-maps in one click — apply the preset first, then fine-tune single colours only if you must.</figcaption>
+</figure>
+<figure>
+  <img src="images/05_chart_light_theme.png" alt="Chart in light theme">
+  <figcaption>A live chart under the Light preset: zones, levels and the card keep their semantics with a remapped palette — readability on a white terminal is a supported workflow, not an afterthought.</figcaption>
+</figure>
+
+<div class="callout note">
+  <strong>The two-minute sanity check</strong>
+  After attaching: (1) the badge shows a context; (2) the session strip counts down; (3) zones carry score labels;
+  (4) PDH/PDL lines sit at yesterday's extremes; (5) the journal line reads "no measured outcome yet" (fresh live
+  record) or shows the replay-exclusion sentence. If any of these is missing, jump to Troubleshooting (Section 43).
+</div>
+
+<h2 id="s2-glyphs">23. Reading the Chart — Every Glyph and Its Variations</h2>
+<figure>
+  <img src="images/06_eurusd_example.png" alt="Worked example chart">
+  <figcaption>A worked example to keep open while reading this chapter: structure lines, two zone families, liquidity levels with sweep stamps, the profile column and a signal marker — each glyph below appears here at least once.</figcaption>
+</figure>
+<p>This is the visual dictionary. Learn it once and the chart becomes a sentence you can read.</p>
+
+<h3>23.1 Swings</h3>
+<table>
+  <tr><th>Mark</th><th>Meaning</th></tr>
+  <tr><td><span style="color:#c92a2a;">▼</span> filled red triangle above a bar</td><td>Confirmed swing HIGH — a pivot the market completed <code>Swing Period</code> bars ago. Candidate BSL; a future break of it is a structure event.</td></tr>
+  <tr><td><span style="color:#2b8a3e;">▲</span> filled green triangle below a bar</td><td>Confirmed swing LOW — candidate SSL.</td></tr>
+  <tr><td><span style="color:#888;">▽ / △</span> hollow grey (optional)</td><td>PROVISIONAL swing on the forming bar — a preview that repaints by design. Never trade it; it is a "what if" mark, not a level.</td></tr>
+</table>
+
+<h3>23.2 Structure events</h3>
+<table>
+  <tr><th>Mark</th><th>Meaning</th></tr>
+  <tr><td>Solid lime line + "BOS"</td><td><b>Bullish break of structure</b> — a swing high taken out with the trend. Trend continuation; context = BULLISH.</td></tr>
+  <tr><td>Solid red line + "BOS"</td><td><b>Bearish break</b> — a swing low taken out with the trend. Context = BEARISH.</td></tr>
+  <tr><td>Dotted aqua line + "CHoCH"</td><td><b>Bullish change of character</b> — the FIRST break of a high against a bearish context. The earliest structural warning that the downtrend may be over. Not a buy signal by itself — a regime question mark.</td></tr>
+  <tr><td>Dotted orange line + "CHoCH"</td><td><b>Bearish change of character</b> — mirror image.</td></tr>
+  <tr><td>Two dotted silver horizontals</td><td><b>Active BSL (upper) / SSL (lower)</b> — the levels the market currently answers to. Everything else (sweeps, breaks) is measured against these two.</td></tr>
+  <tr><td>Lime / red rectangle near a broken swing</td><td><b>Bullish / bearish breaker block</b> — the last opposite candle before the break; a retest zone institutions tend to defend. Watch it fade/leave when it is mitigated or ages out.</td></tr>
+</table>
+
+<h3>23.3 Zones (FVG family)</h3>
+<table>
+  <tr><th>Mark</th><th>Meaning</th></tr>
+  <tr><td>Lime rectangle "FVG+ &lt;score&gt;"</td><td><b>Bullish fair value gap</b> — support-from-imbalance. The number is the Volume Score (0–100). Brighter fill + thicker border = busier zone. Score ≥ 60 reads STRONG; ≥ 80 very strong (A+ grade material).</td></tr>
+  <tr><td>Red rectangle "FVG− &lt;score&gt;"</td><td><b>Bearish FVG</b> — resistance-from-imbalance.</td></tr>
+  <tr><td>Faded rectangle + "MIT"</td><td><b>Mitigated</b> — consumed by a close through its far edge. It lingers <code>Keep Mitigated Zones</code> bars for context, then disappears.</td></tr>
+  <tr><td>Orange rectangle "iFVG+ / iFVG−"</td><td><b>Inverse FVG</b> — a consumed gap flipped polarity: filled support became resistance (and vice versa). First retest of an inverse is a classic continuation entry.</td></tr>
+  <tr><td>Lime/red rectangle "BRK+ / BRK−"</td><td><b>Breaker block</b> (Section 23.2).</td></tr>
+  <tr><td>"[H4]" tag inside a label</td><td>The zone belongs to the higher timeframe (MTF mode) — it is background context, drawn dimmer, and a signal that reacts at it says so everywhere.</td></tr>
+</table>
+
+<h3>23.4 Range &amp; prior levels</h3>
+<table>
+  <tr><th>Mark</th><th>Meaning</th></tr>
+  <tr><td>Red tint (upper half) / green tint (lower half)</td><td><b>Premium / Discount</b> of the current dealing range. Longs belong in the green half, shorts in the red half; a long signal firing in premium is a warning to size down or skip.</td></tr>
+  <tr><td>Dotted silver "EQ 50%"</td><td>Equilibrium — the range's fair middle.</td></tr>
+  <tr><td>Three dotted yellow lines "OTE 62 / 70.5 / 79"</td><td>The optimal-entry band of the retracement. Continuation longs ideally trigger inside it.</td></tr>
+  <tr><td>Solid gold "PDH" / "PDL"</td><td>Prior UTC day's high / low. Resting liquidity above/below; the most-watched intraday levels in existence.</td></tr>
+  <tr><td>Dotted gold "PWH" / "PWL"</td><td>Prior ISO week's high / low — the swing-trader's magnets.</td></tr>
+</table>
+
+<h3>23.5 Liquidity lines</h3>
+<table>
+  <tr><th>Mark</th><th>Meaning</th></tr>
+  <tr><td>Orange line "EQH x2 / x3"</td><td><b>Equal highs</b> — a stack of stops above. The more touches, the heavier the line style. Price approaching an EQH from below is approaching fuel.</td></tr>
+  <tr><td>Aqua line "EQL x2 / x3"</td><td><b>Equal lows</b> — stops below. Mirror reading.</td></tr>
+  <tr><td>Gold line "BSL"</td><td>Single-swing buy-side liquidity (the active swing high's resting orders).</td></tr>
+  <tr><td>Turquoise line "SSL"</td><td>Single-swing sell-side liquidity.</td></tr>
+  <tr><td>Grey dotted line "… SWEPT"</td><td><b>Taken out.</b> The stops behind that level were harvested at the recorded bar; the raid's extreme is remembered. Inside <code>Keep Swept Pools</code> bars this grey line is the most actionable object on the chart: it is what the Reversal setup fades and what a "fake breakout" looks like after the fact. The panel lists it with "*".</td></tr>
+  <tr><td>"SQZ" yellow glyph under a bar</td><td>Volume squeeze fired: N quiet bars against a nearby zone. Coiling — expect expansion, direction unknown (Section 30.4 tells you how to lean).</td></tr>
+</table>
+
+<h3>23.6 Signals &amp; plans</h3>
+<table>
+  <tr><th>Mark</th><th>Meaning</th></tr>
+  <tr><td>"NEXUS ▲" lime under a bar + lime vertical line</td><td><b>LONG signal</b> fired on that closed bar.</td></tr>
+  <tr><td>"NEXUS ▼" red above a bar + red vertical line</td><td><b>SHORT signal</b>.</td></tr>
+  <tr><td>Silver solid "ENTRY", red dotted "STOP (−Np)", lime "TP1 (+x.xR)", mid-lime "TP2", dim "TP3"</td><td>The projected plan with its risk (translucent red box) and reward (translucent green box) regions and the header "▲ LONG A R:R 1:2.3".</td></tr>
+  <tr><td>"✗ STOP −1.0R" at the stop level</td><td>The plan's outcome tag — it died here, honestly measured.</td></tr>
+  <tr><td>"✓ TP1 +2.0R" at the target</td><td>First objective reached.</td></tr>
+  <tr><td>"• ZONE GONE / STRUCTURE FLIP / SUPERSEDED / EXPIRED ±x.xR"</td><td>Non-price outcomes, booked at that bar's close.</td></tr>
+</table>
+
+<h3>23.7 Profile</h3>
+<table>
+  <tr><th>Mark</th><th>Meaning</th></tr>
+  <tr><td>Navy histogram at the right edge</td><td>Per-price volume of the selected period; row length = relative volume; the brightest row is the POC bin.</td></tr>
+  <tr><td>Yellow "POC" line</td><td>The period's fair price — a magnet and a pivot.</td></tr>
+  <tr><td>Aqua "VAH" / "VAL"</td><td>Value-area edges. Acceptance inside, exploration outside; the edges themselves act as support/resistance on re-entry.</td></tr>
+</table>
+
+<h2 id="s2-card">24. The Signal Card, Line by Line</h2>
+<pre>▼  SHORT     Grade A+
+----------------------------------
+Zone   FVG- [H4]
+       7639.90 - 7642.79
+Score  78  (Strong)
+Gates  4 / 4
+Track  A+: 12 closed, avg +0.31R, win 58%
+Setup  REVERSAL - faded swept BSL (2 bars ago)
+Ctx    RANGE  (favours reversal)
+----------------------------------
+Entry  7638.10  (market @ close)
+Stop   7655.80  (sweep high)
+TP1    7597.60  +2.3R  (EQH x2 pool)
+TP2    7530.47  +4.6R  (SSL pool)
+TP3    7463.00  +6.9R  (3x TP1)
+R:R    1 : 2.3   net 1 : 2.0
+Size   0.42 lots  (1% risk)
+ADVICE ▼ SHORT  signal 01 May 12:00 UTC (LDN)
+  hold &lt;= 60 bars  (~5h, ~5 H4 bars) - then exit or re-assess
+  adverse: max 17.7p = 1.0R at the stop; typical MAE -0.44R (n=12)
+----------------------------------
+HTF    H4 BEARISH  ✓ aligned
+STATUS  LIVE  42 bars left</pre>
+<table>
+  <tr><th>Line</th><th>How to read it</th></tr>
+  <tr><td><b>Header</b> ▼ SHORT Grade A+</td><td>Direction and the checklist grade. The card only appears at or above <code>Toast: Minimum Grade</code>.</td></tr>
+  <tr><td><b>Zone</b></td><td>The level the signal reacted at, with its price range and an [H4] tag when it is a higher-timeframe zone.</td></tr>
+  <tr><td><b>Score</b></td><td>That zone's Volume Score and strength bucket — how busy the level has been.</td></tr>
+  <tr><td><b>Gates</b> 4/4</td><td>Confluence gates passed (zone score / structure-or-SFP / volume anomaly / HTF). A 3/4 card is a B — watchlist, not click.</td></tr>
+  <tr><td><b>Track</b></td><td>The grade's OWN record on your feed from the journal. "avg −0.2R, win 31%" on a letter is more useful than any letter.</td></tr>
+  <tr><td><b>Setup</b></td><td>CONTINUATION or REVERSAL — faded swept BSL/SSL/EQH/EQL, with the sweep's age. Two different trades; never confuse them.</td></tr>
+  <tr><td><b>Ctx</b></td><td>The chart-TF regime and which setup it favours (shown in Reversal/Both modes).</td></tr>
+  <tr><td><b>Entry</b></td><td>"market @ close" or "limit @ zone EQ" — and for a limit, the card's STATUS shows LIMIT PENDING until traded.</td></tr>
+  <tr><td><b>Stop</b></td><td>Its structural anchor in words: swing low/high, zone edge, sweep extreme, signal-bar wick, or "entry buffer" (non-structural — such plans are rejected by the gates before you ever see them).</td></tr>
+  <tr><td><b>TP1/TP2/TP3</b></td><td>The ladder with each rung's R multiple and what it is made of (a real pool or a labelled fallback).</td></tr>
+  <tr><td><b>R:R</b></td><td>Gross and NET (after spread) on TP1; display capped at "5+" — raw values live in the journal/CSV.</td></tr>
+  <tr><td><b>Size</b></td><td>Suggested volume for your configured % risk (platform arithmetic; display-only).</td></tr>
+  <tr><td><b>ADVICE</b></td><td>Section 15: when, how long, how far against.</td></tr>
+  <tr><td><b>HTF</b></td><td>The higher-TF regime and its relation to the trade (✓ aligned / ~ neutral / ✗ opposing) — with MTF off the line is absent and A+ does not require it.</td></tr>
+  <tr><td><b>STATUS</b></td><td>LIVE with the bars left on the horizon, or LIMIT PENDING @ price while an order waits.</td></tr>
+</table>
+<p><b>The RESULT card</b> (after the plan dies) is compact and factual: outcome status, the R, the reason in plain
+English, when it happened and how long ago ("held 5 bars, 2 bars ago"), the levels, and — for a limit that never
+became a trade — "no fill" with the honest cause ("the limit never traded" vs "the bar gapped through the entry
+below the stop — no openable position"). A recap rebuilt after attach carries <code>[history]</code>.</p>
+
+<figure>
+  <img src="images/07_toast_grade_a_plus.png" alt="Live card, line by line">
+  <figcaption>The live card, line by line: grade with its track record, the zone it trades from, the gate count, the setup label, the TP ladder with R multiples, gross and net R:R, the size hint, the ADVICE block (hold estimate, horizon in HTF bars) and the STATUS countdown.</figcaption>
+</figure>
+<figure>
+  <svg viewBox="0 0 660 240" role="img" aria-label="Limit entry life-cycle schematic" style="width:100%;max-width:660px;height:auto;background:#0e1116;border-radius:8px;">
+    <g font-family="monospace" font-size="12">
+      <line x1="40" y1="60"  x2="620" y2="60"  stroke="#9aa4ad" stroke-width="2"/>
+      <text x="44" y="52" fill="#c8d1d9">market price now</text>
+      <line x1="40" y1="130" x2="620" y2="130" stroke="#2b8a3e" stroke-width="2" stroke-dasharray="7 5"/>
+      <text x="44" y="122" fill="#69db7c">LIMIT entry @ zone EQ  ·  STATUS: LIMIT PENDING — N bars left</text>
+      <line x1="40" y1="185" x2="620" y2="185" stroke="#c92a2a" stroke-width="2"/>
+      <text x="44" y="177" fill="#ff8787">stop (risk side)</text>
+      <line x1="40" y1="95"  x2="620" y2="95"  stroke="#15aabf" stroke-width="2"/>
+      <text x="44" y="88" fill="#66d9e8">TP1 (reward side, measured from the LIMIT price)</text>
+      <path d="M 500 66 L 500 124" stroke="#ffd43b" stroke-width="2" marker-end="url(#ar)"/>
+      <text x="508" y="100" fill="#ffd43b">price tags the limit →</text>
+      <text x="508" y="116" fill="#ffd43b">plan becomes a position</text>
+      <text x="44" y="222" fill="#868e96">horizon ends untouched → NOT FILLED (no R: it was never a trade)</text>
+      <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#ffd43b"/></marker></defs>
+    </g>
+  </svg>
+  <figcaption>Limit-entry life-cycle (schematic): the plan waits at the zone equilibrium as an <i>order</i> — no R exists yet. Filled, it becomes the position the whole card describes; untouched until its horizon, it books NOT FILLED with an honest reason, and the journal keeps that population separate.</figcaption>
+</figure>
+<figure>
+  <img src="images/16_result_card_history.png" alt="Result card">
+  <figcaption>The result card: SHORT, ZONE GONE, −0.2R at a priced level, <i>why</i> (the signal zone was mitigated/retired), <i>when</i> (28 Sep 17:00, held 1 bar, 138 bars ago) and the plan's own levels with its R:R. The [history] tag guarantees a replayed outcome is never mistaken for fresh news.</figcaption>
+</figure>
+
+<h2 id="s2-panel">25. The Info Panel, Line by Line</h2>
+<table>
+  <tr><th>Line</th><th>How to read it</th></tr>
+  <tr><td><b>Context : BULLISH  H4: BEARISH</b></td><td>Chart-TF regime and (with MTF) the HTF regime. Agreement = green light for size; disagreement = the HTF veto's territory — treat chart signals as counter-trend scalps or stand aside.</td></tr>
+  <tr><td><b>Last event : BOS up 1.08450 (7 bars)</b></td><td>The newest structure event and its age. A fresh event (&lt; 10 bars) is confirmation fuel; an old one explains nothing.</td></tr>
+  <tr><td><b>BSL (active) / SSL (active)</b></td><td>The active swing levels with signed pip distances (positive = above price). These are the next breakout/fade candidates.</td></tr>
+  <tr><td><b>Prior day / Prior week</b></td><td>PDH/PDL and PWH/PWL with signed distances — the session's reference frame.</td></tr>
+  <tr><td><b>Live zones list</b></td><td>The N nearest active zones: type (with "*" = swept pool), price range or level, score, signed distance, STRONG flag. Your shopping list, sorted by proximity.</td></tr>
+  <tr><td><b>Volume : bar 1843 baseline 1210 (152%)</b></td><td>The current bar's volume vs its time-of-day yardstick. &gt; 150% = participation; &lt; 60% for several bars = squeeze territory. The second line shows the rolling average, the same-hour average and the baseline mode — full transparency about the yardstick.</td></tr>
+  <tr><td><b>Squeeze : ACTIVE 7 bars @ 41% …</b></td><td>Streak state, or "building 3/5", or "off".</td></tr>
+  <tr><td><b>Profile : POC / VAH / VAL + price vs POC + inside/outside VA</b></td><td>The period's value geography in one line.</td></tr>
+  <tr><td><b>Nexus signal : SHORT 1.08320 (4 bars) + reason</b></td><td>The last signal with its full reason string (zone, score, entry rule, structure, context, session).</td></tr>
+  <tr><td><b>Trade plan block</b></td><td>Levels + live position state: "now 1.08250 open +0.35R stop 1.15R away TP1 0.85R left (LIVE, 38 bars left)", or LIMIT PENDING, or the dated outcome — the panel keeps answering after the projection is gone ("horizon over").</td></tr>
+  <tr><td><b>size 0.42 lots (1% of balance)</b></td><td>The size hint for the live plan.</td></tr>
+  <tr><td><b>cost: spread 8p  net R:R gate 1.0</b></td><td>The live cost model — with "(assumed)" if the feed publishes no spread.</td></tr>
+  <tr><td><b>Journal block</b></td><td>Section 16: populations, outcomes, averages, MFE/MAE, PF/maxDD/streak/t, per-grade records, the grade check.</td></tr>
+  <tr><td><b>Rejections : no structure event 912 | no fresh sweep to fade (short) 210 | cooldown 54</b></td><td>The engine's "no" distribution since attach. This line alone answers "is it broken?" (no — it is waiting, and here is exactly what for).</td></tr>
+</table>
+
+<figure>
+  <img src="images/23_panel_signal_journal_lines.png" alt="Rejections line on the panel">
+  <figcaption>The rejections line — the engine's waiting room, counted by reason (volume 973, session filter 94, no zone at the entry 39…). It answers "why has nothing fired?" with arithmetic instead of folklore.</figcaption>
+</figure>
+
+<h2 id="s2-lifecycle">26. Life of a Signal — From Close to Record</h2>
+<ol class="steps">
+  <li><b>Bar closes.</b> The engine evaluates the closed bar through the ten gates. Most bars die early and are counted in <code>Rejections</code>.</li>
+  <li><b>Signal fires.</b> The plan is built (stop anchored to structure, ladder from live liquidity, cost checked), validated (a plan with a non-structural stop or a ratio below the gates is rolled back — the engine behaves as if it never fired), then: marker, projection, card, journal entry, alerts (live edge only).</li>
+  <li><b>The plan lives.</b> Every tick, the life-cycle watches: stop, TP1, premise (zone / structure / supersede) and horizon. The card counts down; the panel shows the live R state.</li>
+  <li><b>The plan dies — once, latched.</b> The outcome tag appears on the chart, the result card recaps it, the alert reports it, the journal records status + R + holding time + MFE/MAE.</li>
+  <li><b>The record accumulates.</b> Averages, PF, drawdown, streak, t-statistic and per-grade verdicts grow. When both A+ and A hold ≥ 10 measured closes, the grade check tells you whether the letters mean anything <i>on your feed</i>.</li>
+</ol>
+<div class="callout note">
+  <strong>Limit plans, precisely</strong>
+  A limit plan adds step 2.5: <b>PENDING</b>. Only the cancel rules run while it waits (horizon / superseded /
+  structure flip / zone gone → NOT FILLED). It fills on the first bar that trades the price — a gap through fills at
+  the better open; a gap that would open the position beyond its own stop cancels the order (NOT FILLED, with the
+  reason). Measurement starts at the actual fill, and TP1 is never booked on the fill bar itself.
+</div>
+
+<h2 id="s2-entry">27. Entering a Trade — the Procedure</h2>
+<ol class="steps">
+  <li><b>Read the card top-down.</b> Grade and Track (is this letter earning its keep on this feed?), Setup (continuation or fade — they are managed differently), Gates (4/4 or not), Ctx/HTF lines (regime agreement).</li>
+  <li><b>Check the plan geometry.</b> Stop anchored to something real (the note says what); TP1 at live liquidity; net R:R ≥ your floor; risk in pips you can stomach at the suggested size.</li>
+  <li><b>Check the ADVICE.</b> Signal time (is this fresh or 40 bars old?), hold window vs the time you can actually manage the position, adverse guidance vs your patience.</li>
+  <li><b>Place the order manually.</b> Market at the close price, or a limit at the plan's entry — the product places nothing, by design (AccessRights.None). Use the Size line for volume.</li>
+  <li><b>Set your broker SL at the plan's stop.</b> The measured statistics assume the stop is real. Then let the life-cycle inform you: card STATUS, panel open-R, outcome alerts.</li>
+</ol>
+<div class="callout warn">
+  <strong>The freshness rule</strong>
+  A signal is an entry <b>now</b>, not later. If you find a card 20 bars old with price already halfway to TP1,
+  the trade is gone — entering there changes the R:R you were shown into something the journal never measured.
+  The ADVICE line's age and the STATUS countdown exist precisely to stop this.
+</div>
+
+<h2 id="s2-manage">28. Managing a Trade</h2>
+<h3>28.1 The ladder policy</h3>
+<ul>
+  <li><b>TP1 is the system's exit.</b> The journal measures every plan as TP1-first — that is what the statistics you read describe. The simplest way to trade Nexus exactly "as measured" is: full exit at TP1.</li>
+  <li><b>TP2 / TP3 are runner objectives.</b> If you scale out (e.g., 50% at TP1, stop to entry, rest toward TP2/TP3), you are running a <i>different</i> policy than the journal measures. That is legitimate — but judge it with the MFE column: the CSV's <code>mfe_r</code> tells you, per trade, how much room runners actually had on this feed.</li>
+  <li><b>The stop does not move against you.</b> Widening a stop converts a measured −1R into an unmeasured loss. Moving it to entry after TP1 is fine — just know the journal keeps scoring the original policy.</li>
+</ul>
+<h3>28.2 Using the ADVICE numbers while the trade runs</h3>
+<ul>
+  <li><b>Adverse excursion.</b> Price drifting against you inside the typical MAE (from the ADVICE line) is the plan breathing — your own feed's history says trades routinely dip that deep before winning. Consistently beyond it, or beyond ~0.7–0.8R with the hold window half spent, the premise is failing earlier than your record says winners do: that is the discretionary cut the numbers support.</li>
+  <li><b>Hold window.</b> "hold ≤ 60 bars (~5h, ~5 H4 bars) — then exit or re-assess" is the premise's shelf life. At expiry the product itself books the plan EXPIRED at the close. If you are still in, you are holding on hope, not on the setup — re-assess against fresh structure, not against your entry price.</li>
+  <li><b>Premise deaths are information.</b> ZONE GONE / STRUCTURE FLIP outcomes mean the reason for the trade dissolved before the price verdict. Taking those exits manually (as the product books them) keeps your trading identical to your statistics.</li>
+</ul>
+<h3>28.3 What the outcome tag tells you afterwards</h3>
+<p>"✗ STOP −1.0R" and "✓ TP1 +2.0R" need no translation. The neutral tags are the interesting ones: a cluster of
+SUPERSEDED outcomes means your cooldown/horizon settings overlap signals (fine — the newer signal replaced the
+older plan); ZONE GONE shortly after entry on continuations usually marks zones that were already mostly filled —
+check the entry-location mode; EXPIRED with a large positive MFE says the market moved but never quite tagged TP1 —
+that is the runner-policy conversation, and the MFE/MAE averages are your evidence.</p>
+<h2 id="s2-enter-wait">29. When to Enter — and When to Wait</h2>
+<p>
+The engine already filters; this section is about the <b>human decision layer</b>: among the signals that pass,
+which deserve your money right now, and which should be watched instead. Read it as a scoring conversation between
+the card, the chart and the panel.
+</p>
+
+<h3>29.1 The green-light combinations (enter)</h3>
+<table>
+  <tr><th>#</th><th>Combination</th><th>Why it is the good stuff</th></tr>
+  <tr>
+    <td>1</td>
+    <td><b>A/A+ CONTINUATION</b> + fresh BOS in direction (&lt; 5 bars) + zone score ≥ 70 + entry in <b>discount</b> (long) / <b>premium</b> (short) + HTF aligned + net R:R ≥ 1.5</td>
+    <td>The textbook: the trend proved itself (BOS), the pullback found a busy level on the correct side of equilibrium, and the higher timeframe agrees. This is the profile the grade system was built to surface.</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td><b>A/A+ REVERSAL</b> + sweep of a <b>multi-touch pool</b> (EQH/EQL x2–x3) or of <b>PDH/PDL-adjacent</b> liquidity + SFP close back inside + long wick (rejection) + Ctx RANGE + volume spike 2–5× baseline</td>
+    <td>The raid was big, obvious and rejected with participation — stops harvested, no follow-through. The sweep extreme gives you a stop the market has already defended once.</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>Signal at a <b>confluence stack</b>: zone edge coincides (within a few pips) with EQ 50% or the OTE band, or with POC/VAH/VAL, or a breaker overlapping an FVG</td>
+    <td>Independent reasons to react at the same price = one level with several defence budgets. The panel's zone list makes the stack visible.</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>Signal <b>after a squeeze release</b>: SQZ marker within the last few bars, then volume returns &gt; 150% of baseline in the signal direction</td>
+    <td>Compression resolved with participation — expansion trades carry further, which is what your TP ladder needs.</td>
+  </tr>
+  <tr>
+    <td>5</td>
+    <td>Journal verdict supports it: the signal's grade shows <b>positive avg R with n ≥ 10</b>, or the panel's t-statistic has crossed ±2</td>
+    <td>Your own feed vouches for this letter. This is the difference between "taking a signal" and "executing a verified system".</td>
+  </tr>
+</table>
+
+<h3>29.2 The yellow lights (reduce size or wait for confirmation)</h3>
+<ul>
+  <li><b>Grade B</b> — one gate short. Usually the HTF or the structure gate. Wait for the confirming event (a BOS in your direction, or the HTF to stop opposing); if it comes while price is still at the level, the setup is alive; if price left without you, it is gone.</li>
+  <li><b>Ctx disagreement</b>: chart RANGE, HTF strongly trending, and the signal is a continuation against the HTF — the veto is off, but the tape is. Half size or skip.</li>
+  <li><b>Continuation late in a leg</b>: the 3rd–4th BOS of one directional run, price deep in premium (for longs) far from EQ — the trend is aging; entries here chase. The ADVICE "typical MAE" from your journal will show it: late-leg trades dip deeper.</li>
+  <li><b>Thin targets</b>: TP1 is a fallback ("fallback 2x ATR") rather than a real pool — the market has no obvious resting liquidity nearby; expect the R:R to be harder to deliver.</li>
+  <li><b>Spread stress</b>: the panel shows the spread near your <code>Max Spread</code> or flagged "(assumed)" around rollover — costs are quietly eating the net ratio; the gate protects you only if it is on.</li>
+  <li><b>Session edges</b>: signals in the last 30–45 minutes of London or New York have a truncated runway to TP1 before the session's volume disappears. Either take them smaller or only on M5–M15 where the horizon is short.</li>
+</ul>
+
+<h3>29.3 The red lights (do not enter, whatever the card says)</h3>
+<ul>
+  <li><b>The signal is stale.</b> STATUS shows few bars left, or the card is a <code>[history]</code> recap, or price has travelled more than ~⅓ of the way to TP1 since the signal bar. The measured edge belongs to the entry the plan describes — not to a chase of it.</li>
+  <li><b>News is minutes away</b> (inside your blackout window even if the gate is off — the gate protects signals, your cursor needs protecting too).</li>
+  <li><b>Journal says NEGATIVE</b>: the grade's Track line is meaningfully negative with n ≥ 15–20, or the panel prints "NEGATIVE edge significant". The system is telling you, with your own data, to stop. That is the feature working, not failing.</li>
+  <li><b>You cannot place the stop.</b> If your broker's minimum stop distance or the current volatility makes the plan's stop unexecutable, the plan is unexecutable — the micro-stop gate exists for exactly this class of problem; respect its verdict manually when it is about your account, not the print.</li>
+  <li><b>You are already exposed to the same idea</b>: two longs on correlated pairs (check the Watch board — same context everywhere) is one trade with double size.</li>
+</ul>
+
+<h3>29.4 "It hasn't fired in days — is it broken?"</h3>
+<p>
+No. Open the panel's <b>Rejections</b> line. It is a histogram of the engine's patience:
+</p>
+<table>
+  <tr><th>Top reason</th><th>What the market is doing</th><th>What you can do</th></tr>
+  <tr><td><code>no structure event</code> / <code>structure too old</code></td><td>No fresh break at all — deep range or a slow grind</td><td>Switch Direction Mode to Reversal or Both: ranges are the fade's home turf</td></tr>
+  <tr><td><code>no zone at the entry</code></td><td>Price is in no-man's-land between levels</td><td>Nothing — this is the filter working; wait for the next zone touch</td></tr>
+  <tr><td><code>volume …x below …</code></td><td>Holiday/rollover quiet</td><td>Nothing — low participation means low follow-through; the gate is protecting you</td></tr>
+  <tr><td><code>volume spike …x</code></td><td>Headline prints</td><td>Stand aside manually too — the aftermath of an 8×+ spike is spread and slippage</td></tr>
+  <tr><td><code>no fresh sweep to fade</code></td><td>Reversal mode without raids</td><td>Use Both mode so continuations may also fire</td></tr>
+  <tr><td><code>reversal vs BULLISH/BEARISH context</code></td><td>A trend is running — fades are vetoed</td><td>Correct behaviour. Wait for the trend to exhaust into a pool, or trade continuations</td></tr>
+  <tr><td><code>cooldown</code></td><td>Signals ARE firing, the throttle is pacing them</td><td>Nothing — that is the point</td></tr>
+  <tr><td><code>plan R:R below the minimum</code> / <code>plan risk inside the spread</code></td><td>Setups exist but are untradable at current geometry/cost</td><td>Check the spread; consider a higher TF where the same levels give bigger plans</td></tr>
+</table>
+
+<h2 id="s2-fakeouts">30. False Moves &amp; Breakout Clues — the Interpretation Chapter</h2>
+<p>
+Liquidity reading is, at bottom, the study of two questions: <b>was that move real, or was it harvesting?</b> and
+<b>is the market about to leave this range, and in which direction?</b> This section is the field guide.
+</p>
+
+<h3>30.1 Anatomy of a false move (the sweep / SFP)</h3>
+<p>The reliable signature, in order of appearance:</p>
+<ol>
+  <li><b>A level with obvious resting orders</b>: EQH/EQL pool, PDH/PDL/PWH/PWL, the active BSL/SSL, a round number. The indicator labels all of these — the fuel is visible before the match.</li>
+  <li><b>The raid</b>: a fast push through the level, typically a single bar or two, on elevated volume. In Wick sweep mode the pool greys to "SWEPT" immediately; the raid's extreme is recorded.</li>
+  <li><b>The failure to progress</b>: the close comes back inside the level (the SFP). This is the tell. A breakout that is real <i>closes</i> beyond and holds; a harvest <i>wicks</i> beyond and returns.</li>
+  <li><b>The consequence</b>: everyone who entered on the "breakout" is trapped beyond the level; their stops now fuel the opposite move. A REVERSAL signal firing here is the product trading exactly this mechanism — with the stop beyond the raid extreme, i.e. beyond the trap.</li>
+</ol>
+<div class="callout tip">
+  <strong>Practical discriminators — sweep vs real break</strong>
+  <ul style="margin:6px 0;">
+    <li><b>Close location.</b> Close back inside the level = sweep. Close beyond + the next bar also beyond = break.</li>
+    <li><b>Bar shape.</b> Long wick, small body at the level = rejection. Full-body marquee closing through = acceptance.</li>
+    <li><b>What happened after.</b> A real break retests the level from the other side and holds (the level flips: old resistance becomes support). A sweep never retests successfully — price just leaves.</li>
+    <li><b>Volume profile.</b> Acceptance means volume building <i>beyond</i> the old VAH/VAL; a raid on a spike that prints no volume beyond the level is a probe, not a migration.</li>
+    <li><b>The engine's own verdict.</b> Wick-mode sweep + close back inside = the reversal setup may fire. Close-mode confirmation = a BOS prints and the continuation logic owns the move. The two modes literally encode the two readings.</li>
+  </ul>
+</div>
+
+<h3>30.2 False-move variants you will meet</h3>
+<table>
+  <tr><th>Pattern</th><th>Reading</th></tr>
+  <tr><td><b>PDH/PDL wick-and-return at London open</b></td><td>The classic session fakeout: the first 1–2 hours raid yesterday's extreme to gather orders, then reverse into the session's real direction. A reversal signal at PDH/PDL in this window is among the highest-quality the product generates.</td></tr>
+  <tr><td><b>EQH x3 "too clean" levels</b></td><td>Three+ perfectly equal highs are advertised liquidity — the more obvious the stack, the more likely the first push through it is a raid. Do not buy the breakout of an EQH blindly; wait for either the SFP (fade) or a close-and-hold beyond (then the EQH is fuel spent, and continuation logic applies).</td></tr>
+  <tr><td><b>News spike through everything</b></td><td>Volume &gt; 8× baseline + bar range &gt; 4× ATR = the engine rejects by design. Manually: spreads are wide, fills are fiction, and the first post-news level touch often re-loads the other side. Wait 2–3 bars.</td></tr>
+  <tr><td><b>The CHoCH that fails</b></td><td>A CHoCH is the FIRST break against the context — by definition early and unproven. Roughly half of them are just deep pullbacks. Trade a CHoCH only with confluence (it coincides with a swept pool / OTE / HTF level) — otherwise wait for the second break (the BOS that confirms the change).</td></tr>
+  <tr><td><b>Low-volume drift beyond a level</b></td><td>Price oozing past BSL on declining volume with no volume-anomaly participation: nobody is home. These "breaks" routinely fail — the engine's volume gate rejects signals born there, and so should you.</td></tr>
+  <tr><td><b>Weekend/rollover gaps</b></td><td>A gap "through" a level is not a sweep and not a break — it is an absence of trading. Watch the first bars back: real business resumes when the gap edge is tested and held/rejected with volume.</td></tr>
+</table>
+
+<h3>30.3 Breakout clues — when the range is about to end</h3>
+<ul>
+  <li><b>Squeeze + location.</b> SQZ fired while price sits compressed just under a heavy EQH or just above an EQL (or against PDH/PDL) — the coil is loaded against a specific wall. The expansion, when volume returns, has a first direction bias: away from the wall it could not break, or through it if the release bar closes beyond with ≥ 1.5–2× baseline volume.</li>
+  <li><b>Repeated defence with shrinking recoil.</b> Each touch of a level makes a shallower pullback (visible as successive higher lows into an EQH): absorption. The level is being eaten from below — breaks under absorption tend to run.</li>
+  <li><b>Value-area migration.</b> The profile's VAH/VAL of the current session pushing against the prior session's — price is being accepted progressively higher/lower. Breaks in the direction of migration have follow-through; breaks against it are usually fades.</li>
+  <li><b>Structure compression.</b> Active BSL and SSL converging (both within a few pips on the panel) = a triangle of resting liquidity on both sides. Whichever goes first harvests the other side's stops — many desks wait for that first raid and trade the SFP if it fails, or the continuation if it holds.</li>
+  <li><b>HTF context turning.</b> An H4 CHoCH while the chart TF is still ranging against it — the higher timeframe is early, and chart-TF continuation signals in the new HTF direction are the ones to prioritise from here on.</li>
+</ul>
+<div class="callout warn">
+  <strong>The breakout entry discipline</strong>
+  The product does not chase breakouts — it trades reactions (at zones) and failures (fades). If you want to trade
+  the break itself, make the market prove it first: close beyond + a successful retest-hold, then let the engine's
+  next zone-touch signal (often at the freshly flipped level or its breaker) be your entry. You will miss the first
+  20% of the move and avoid the majority of the traps — a trade most professionals make happily.
+</div>
+
+<h3>30.4 Putting squeeze, sweeps and context together — four chart states</h3>
+<table>
+  <tr><th>State (badge + evidence)</th><th>What is likely</th><th>What to trade</th></tr>
+  <tr><td><b>RANGE + pools intact both sides</b></td><td>Rotational chop between BSL and SSL</td><td>Fades at the edges (Reversal mode), targets = EQ/POC then the opposite edge; skip mid-range entirely</td></tr>
+  <tr><td><b>RANGE + SQUEEZE + price at one wall</b></td><td>Imminent expansion, direction leaning away from the wall that keeps holding — or through it on a volume release</td><td>Wait for the release bar; trade the first Nexus signal after it (often a reversal at the raided wall, or a continuation from the new breaker)</td></tr>
+  <tr><td><b>BULLISH/BEARISH + fresh BOS + pullback into discount/premium zone or OTE</b></td><td>Trend continuation cycle in progress</td><td>The A-grade continuations (green-light #1); the HTF-aligned ones first</td></tr>
+  <tr><td><b>Trending into a heavy HTF level (badge disagrees with HTF)</b></td><td>Exhaustion territory: the chart trend is running at the higher timeframe's wall</td><td>Stop taking continuations into it; watch for the raid+SFP of the wall's liquidity — that reversal is the highest-conviction fade available</td></tr>
+</table>
+
+<h2 id="s2-mtf">31. Multi-Timeframe Workflow</h2>
+<ol class="steps">
+  <li><b>Set the pair.</b> Rule of thumb: HTF ≈ 4–6× the chart TF. M5→M30/H1, M15→H1/H4, H1→H4, H4→D1. Enable MTF; the badge now shows both regimes.</li>
+  <li><b>Start from the HTF story.</b> Badge: what is the H4 context? Where is price relative to the H4 active BSL/SSL and the [H4]-tagged zones? That is your permission slip: with H4 BULLISH you favour longs on the chart TF, treat shorts as scalps, and let <code>Require HTF Confirmation</code> veto the rest if you want machine discipline.</li>
+  <li><b>Trade the chart TF inside that story.</b> The best signals are the ones where both lines of the badge point the same way — those are the A+ candidates (alignment is literally the A+ gate).</li>
+  <li><b>Use the ADVICE HTF line.</b> "hold ≤ 60 bars (~5h, ~5 H4 bars)" tells you the plan spans about one H1 candle of H4 decision-time — an H4 trader would not even notice it. If the HTF count is &lt; 1 bar, your horizon is shorter than the higher timeframe's heartbeat: either extend <code>Trade Plan Horizon</code> or accept scalp semantics.</li>
+  <li><b>When contexts fight</b>, the Watch board and the rejections line explain why nothing fires — and the honest answer is usually "wait for the HTF to finish its event".</li>
+</ol>
+
+<figure>
+  <img src="images/19_liquidity_swept.png" alt="Sweep: the reversal raw material">
+  <figcaption>A REVERSAL setup end-to-end on the current build: swept levels carry timestamps (see the liquidity close-up above), the close back inside confirms the raid, the NEXUS marker prints only after every gate passes, and the plan's stop sits beyond the raid extreme — the level that invalidates the thesis.</figcaption>
+</figure>
+
+<h2 id="s2-journal">32. Working with the Journal, Statistics &amp; CSV</h2>
+<h3>32.1 The weekly five-minute review</h3>
+<ol>
+  <li>Read the populations line: how many signals, how many closed, how many not-filled (limit mode), how many abandoned (you switch timeframes a lot?).</li>
+  <li>Read the performance-risk line: PF &gt; 1.3 with maxDD you could have lived with = the system is paying; t ≥ 2 = the sample now vouches for it; "not yet significant" = keep the size small, keep collecting.</li>
+  <li>Read the grade ladder: is A+ actually beating A on your feed? If the grade check says no for weeks, your minimum-grade setting is a style choice, not an edge filter — that is fine, but know it.</li>
+  <li>Read MFE vs the outcome mix: avg MFE ≫ avg result with many EXPIRED/ZONE GONE = your exits leave money on the table → study the TP ladder policy (28.1). Avg MAE ≈ −1R with mostly stops = entries are late → tighten the entry-location mode or the chase cap.</li>
+  <li>Export the CSV periodically (or set the auto-print), and keep a folder by month. The journal ring holds up to 2000 entries; your archive is forever.</li>
+</ol>
+<h3>32.2 CSV columns (30)</h3>
+<p>
+<code>time, symbol, timeframe, direction, setup, grade, zone, session, htf_aligned, volume_score, gates,
+entry, stop, tp1, tp2, tp3, rr_gross, rr_net, spread_points, entry_type, filled, fill_time, source,
+status, result_r, held_bars, mfe_r, mae_r, outcome_time, plan_key</code> — every row has exactly the header's field count;
+<code>plan_key</code> (v2.3.5) joins a journal row to the robot's execution row one-to-one;
+unfilled orders carry empty R/MFE/MAE cells because they were never trades; <code>source</code> separates live from
+replay. This is a complete forward-test dataset: paste it into any spreadsheet and pivot by setup/grade/session —
+the product deliberately keeps its own aggregation simple and gives you the raw truth.
+</p>
+
+<div class="callout info">
+  <strong>CSV, exactly as printed (header + one row, 30 fields each)</strong>
+<pre style="overflow-x:auto;">time,symbol,timeframe,direction,setup,grade,zone,session,htf_aligned,volume_score,gates,entry,stop,tp1,tp2,tp3,rr_gross,rr_net,spread_points,entry_type,filled,fill_time,source,status,result_r,held_bars,mfe_r,mae_r,outcome_time,plan_key
+2026-09-28 17:00,EURUSD,h1,SHORT,CONTINUATION,B,IFVG- 1.13731,LDN+NY,true,79,5/7,1.13716,1.13912,1.13487,1.13260,1.13033,1.72,1.41,1.2,limit,true,2026-09-28 19:00,live,STOPPED,-1.0,1,0.4,-0.8,2026-09-29 02:00,lvn-e7f3a1</pre>
+  Copy the whole block from the cTrader log into a spreadsheet — every row keeps the header's field count, so pivots never shift.
+</div>
+
+<h2 id="s2-alerts">33. Alerts &amp; Debug Log</h2>
+<ul>
+  <li><b>[LVN ALERT]</b> — every live signal and every outcome (stop/TP1/premise deaths, NOT FILLED with its reason) lands in the cTrader log with this prefix, plus an optional sound. The cTrader indicator API has no popup channel; the corner card IS your popup, and the log is your paper trail.</li>
+  <li><b>Live-edge discipline</b> — attaching to a chart never replays last month's alerts at you; history is silent by design.</li>
+  <li><b>Debug Log = true</b> adds: the history-pass report (one line: bars, signals, newest plan outcome, card state and why), every card transition, per-bar rejection reasons at the live edge, and start-up settings normalisation notes. Turn it on when something seems missing; leave it off for quiet operation.</li>
+  <li><b>Squeeze alerts</b> are separate and off by default — they are informational, not trading signals.</li>
+</ul>
+
+<h2 id="s2-instruments">34. Timeframe &amp; Instrument Guide</h2>
+<table>
+  <tr><th>Context</th><th>Recommended setup</th></tr>
+  <tr><td><b>M1–M5 scalping (FX majors, London/NY)</b></td><td>Swing legs 3–4; session filter ON (LDN+NY only, off-hours OFF); news blackout ON; Direction Mode = Both; horizon 40–60 bars; limit entry if your execution allows; cooldown 8–12.</td></tr>
+  <tr><td><b>M15–H1 intraday</b></td><td>Defaults + MTF ON (H4); Require HTF Confirmation ON; session filter ON including Tokyo if you trade JPY; horizon 60–120.</td></tr>
+  <tr><td><b>H4–D1 swing</b></td><td>Swing legs 6–8; MTF ON (D1/W1); volume anomaly ratio 1.3–1.5 (bigger bars smooth volume); cooldown 3–5; horizon 100–200; Max Spread gate ON (swing entries must not pay crisis spreads).</td></tr>
+  <tr><td><b>Gold / indices</b></td><td>Defaults adapt (ATR-scaled filters). Widen <code>Equal-Level Tolerance</code> to ATR mode (0.25–0.4): metals print messy equal levels in points. News blackout strongly recommended — gold raids both sides of everything at 12:30/14:00 UTC.</td></tr>
+  <tr><td><b>Crypto (24/7)</b></td><td>Baseline Mode = Rolling (no session seasonality to model); session filter OFF; the assumed-spread class estimate gives crypto the conservative 2-pip floor when the feed publishes nothing; keep the micro-stop gate ON — crypto spreads breathe.</td></tr>
+  <tr><td><b>Exotics / wide-spread CFDs</b></td><td>Set <code>Max Spread</code> to your pain threshold and <code>Minimum NET R:R</code> ≥ 1.2 — wide costs need wider edges. The card's net ratio will show you the truth per signal.</td></tr>
+</table>
+<!-- ============================================================
+     SECTION 3 — TIPS
+     ============================================================ -->
+<h1 id="section-3" style="font-size:40px;border-bottom:3px solid var(--accent);padding-bottom:12px;">SECTION 3 — TIPS</h1>
+<p style="font-size:18px;color:var(--text-soft);">The habits that make the product pay for itself — and the mistakes that make traders quit it.</p>
+
+<h2 id="s3-golden">35. The Golden Rules</h2>
+<div class="callout tip">
+  <strong>The ten commandments of Nexus</strong>
+  <ol style="margin:8px 0;">
+    <li><b>The card is the contract.</b> Trade what it says — entry, stop, ladder, horizon. A trade you improvise away from the plan is a trade the journal cannot vouch for.</li>
+    <li><b>Freshness beats beauty.</b> An average signal taken on its bar beats a gorgeous one taken 20 bars late. Read the ADVICE age and the STATUS countdown before anything else.</li>
+    <li><b>The stop is sacred.</b> It sits beyond real structure (the card says which). Never widen it; the moment you do, you have left the measured system and entered an unmeasured opinion.</li>
+    <li><b>Trade the setup you are configured for.</b> Continuation and Reversal are different trades with different regimes. The Setup line exists so you never confuse them; the Ctx line tells you which one the market is currently paying for.</li>
+    <li><b>Costs are part of the signal.</b> Net R:R, max spread and the micro-stop gate are not bureaucracy — they are the difference between a plan and a donation.</li>
+    <li><b>Let the journal reach significance before you scale.</b> Until t ≥ 2 (or at least n ≥ 20–30 measured closes in the black), trade the minimum size that lets you collect data. The product prints its own verdict; obey it.</li>
+    <li><b>One impulse, one trade.</b> The cooldown exists because markets repeat themselves within a move. Re-entering "the same idea" three bars later is the same trade with worse geometry.</li>
+    <li><b>Context over signal.</b> A signal against a strongly trending HTF, in premium, on a fallback target is three yellow lights — no grade redeems that. The badge and the ADVICE block are part of the signal, not decoration.</li>
+    <li><b>Volume is the lie detector.</b> Moves without participation (below baseline) fail; raids on absurd spikes (&gt;8×) are headlines. The engine filters both — respect the same rule when you override anything by hand.</li>
+    <li><b>Review weekly, adjust monthly.</b> Five minutes with the journal block (32.1) per week; parameter changes only after enough closes to justify them. A system tuned on three trades is a mood, not a method.</li>
+  </ol>
+</div>
+
+<h2 id="s3-presets">36. Recommended Presets by Trading Style</h2>
+<table>
+  <tr><th>Parameter</th><th>Scalper (M1–M5)</th><th>Intraday (M15–H1)</th><th>Swing (H4–D1)</th><th>Crypto (any)</th></tr>
+  <tr><td>Swing Period</td><td>3</td><td>5</td><td>6–8</td><td>4–5</td></tr>
+  <tr><td>Signal Direction Mode</td><td>Both</td><td>Both</td><td>Continuation</td><td>Both</td></tr>
+  <tr><td>Enable MTF / HTF</td><td>ON / M30–H1</td><td>ON / H4</td><td>ON / D1</td><td>ON / ×4–6 TF</td></tr>
+  <tr><td>Require HTF Confirmation</td><td>OFF (speed)</td><td>ON</td><td>ON</td><td>ON</td></tr>
+  <tr><td>Session filter</td><td>ON: LDN+NY only</td><td>ON: LDN+NY(+TKY for JPY)</td><td>OFF</td><td>OFF</td></tr>
+  <tr><td>News blackout</td><td>ON ±20–30 min</td><td>ON ±15 min</td><td>ON ±15 min</td><td>OFF</td></tr>
+  <tr><td>Volume Baseline Mode</td><td>Blended</td><td>Blended</td><td>Blended</td><td>Rolling</td></tr>
+  <tr><td>Volume Anomaly Ratio</td><td>1.5</td><td>1.5</td><td>1.3</td><td>1.4</td></tr>
+  <tr><td>Entry Location</td><td>Touching / Inside</td><td>Touching (default)</td><td>RetracedIntoZone 40–50%</td><td>Touching</td></tr>
+  <tr><td>Trade Plan Entry</td><td>Limit at zone EQ (if you can babysit)</td><td>Market at close</td><td>Limit at zone EQ</td><td>Market at close</td></tr>
+  <tr><td>Trade Plan Horizon</td><td>40–60</td><td>60–120</td><td>100–200</td><td>60–120</td></tr>
+  <tr><td>Signal Cooldown</td><td>8–12</td><td>10</td><td>3–5</td><td>10</td></tr>
+  <tr><td>Max Spread (points)</td><td>your broker's normal +2</td><td>normal +3</td><td>normal ×2</td><td>normal ×2</td></tr>
+  <tr><td>Min NET R:R</td><td>1.0</td><td>1.0–1.2</td><td>1.2–1.5</td><td>1.2</td></tr>
+  <tr><td>Risk Per Plan</td><td>0.5–1%</td><td>1%</td><td>1–2%</td><td>0.5%</td></tr>
+</table>
+<p>Save each as a cTrader preset (<code>.preset</code>) after configuring — switching styles should take one dropdown, not twenty dialogs.</p>
+
+<h2 id="s3-risk">37. Risk Management with Nexus</h2>
+<ul>
+  <li><b>Start from the Size line.</b> It is the platform's own proportional-risk arithmetic on the plan's stop distance at your configured % — the single most execution-ready number on the card. 1% default is a professional starting point; 0.5% while the journal is young.</li>
+  <li><b>Respect the cost gates.</b> <code>Minimum NET R:R ≥ 1.0</code> and <code>Minimum Plan Risk ≥ 3× spread</code> are the floor of tradability. Raising them (net 1.2–1.5 on wide-spread instruments) improves the average outcome at the price of fewer signals — usually a trade worth making.</li>
+  <li><b>Use maxDD as your sizing mirror.</b> The journal's max drawdown in R is what holding this system actually felt like on your feed. If 4R of drawdown would have made you quit, your % per trade is too high — that is arithmetic, not psychology.</li>
+  <li><b>Correlated exposure.</b> The Watch board shows neighbouring symbols' regimes at a glance: three pairs all BULL ▲ on H4 means one dollar-risk trade wearing three costumes. Count the idea, not the tickets.</li>
+  <li><b>The losing streak will come.</b> The "worst streak" statistic exists so the streak doesn't surprise you: at a 50–55% win rate, streaks of 4–6 losses are ordinary weather. Sizing is the only defence that works against weather.</li>
+  <li><b>Never average down against a plan.</b> The stop beyond the raid extreme / swing is where the idea is proven wrong. Adding size beyond it converts a measured −1R into an unmeasured disaster — the one mistake no indicator can survive.</li>
+</ul>
+
+<h2 id="s3-avoid">38. What NOT to Do</h2>
+<table>
+  <tr><th>Don't</th><th>Why</th><th>Do instead</th></tr>
+  <tr><td>Judge the system on its first 10 trades</td><td>At n=10 the t-statistic cannot distinguish edge from noise — the panel says so out loud</td><td>Collect 25–30 measured closes at minimum size; read the verdict line</td></tr>
+  <tr><td>Disable the cost/volatility gates "to see more signals"</td><td>You will see more of exactly the signals that lose: news bars, micro-stops, spread-eaten ratios</td><td>If volume is too low, change timeframe or instrument — not the gate</td></tr>
+  <tr><td>Trade every card regardless of Setup/Ctx</td><td>A continuation in a range and a fade in a trend are the two classic ways to pay the market's tuition</td><td>Match the setup to the regime: Ctx line, badge, HTF — they agree more often than you think</td></tr>
+  <tr><td>Enter stale signals or chase price toward TP1</td><td>Your fill has a different R:R than the measured plan; the journal no longer describes what you did</td><td>Freshness rule (27); if you missed it, the rejections line will tell you the next one is coming</td></tr>
+  <tr><td>Move the stop wider "just this once"</td><td>Turns a bounded −1R into an unbounded loss and corrupts your own statistics</td><td>Cut early if the premise died (ZONE GONE / FLIP logic), never later</td></tr>
+  <tr><td>Read replay statistics as your track record</td><td>History-replay entries are the same logic's past on this feed — informative, but not <i>yours</i></td><td>Keep "Count History Replay In Stats" OFF; the panel prints the exclusion sentence for a reason</td></tr>
+  <tr><td>Treat grades as probabilities</td><td>A+ is a checklist result; its worth is the Track line's measured average, which varies per feed</td><td>Let the grade check calibrate: if A+ doesn't beat A on your symbol, believe your feed over the letters</td></tr>
+  <tr><td>Run it on 12 charts at once with everything enabled</td><td>Not a correctness problem — an attention problem; you will miss freshness windows</td><td>2–4 charts, alerts on, journal-driven review</td></tr>
+  <tr><td>Fade a strong trend because "it's overextended"</td><td>The Range-context veto exists because measured fading of trends lost money in testing</td><td>Keep <code>Reversal: Require Range Context</code> ON; trade the HTF level instead (30.4, state 4)</td></tr>
+  <tr><td>Ignore the "(assumed)" spread flag</td><td>If your feed publishes no spread and the assumption is too tight, every net-R:R verdict is optimistic</td><td>Set <code>Assumed Spread</code> manually to your broker's real typical spread</td></tr>
+  <tr><td>Use the provisional (hollow) swings for decisions</td><td>They repaint by definition — they are a preview of what <i>might</i> confirm</td><td>Trade only what is confirmed; the preview is for anticipation, not execution</td></tr>
+</table>
+
+<h2 id="s3-follow">39. What to Follow — the 30-Day Onboarding Plan</h2>
+<ol class="steps">
+  <li><b>Days 1–3 — observe.</b> Defaults on your 1–2 chosen charts, MTF on, Debug Log on. Take nothing. Read each card top-down when it appears; read the history-pass report; learn your rejections line's normal shape.</li>
+  <li><b>Days 4–10 — paper the signals.</b> Log every card you <i>would</i> take (a screenshot or a CSV note). Compare against what the journal books. You are calibrating your eyes against the machine's honesty.</li>
+  <li><b>Days 11–20 — minimum size, live.</b> 0.25–0.5% risk. Trade only green-light combinations (29.1) — expect 2–5 trades, not 20. Follow the plan mechanically: stop real, exit at TP1.</li>
+  <li><b>Day 21 — first review.</b> Journal block + CSV: does the shape match your paper week? MFE/MAE telling you your exits are early/late? Adjust ONE thing (horizon, entry mode, or size) — never five.</li>
+  <li><b>Days 22–30 — steady state.</b> Continue at minimum size until the measured count crosses ~20–30 closes. Only then let the t-statistic conversation decide whether to scale toward 1%.</li>
+</ol>
+<div class="callout note">
+  <strong>Why this plan and not "start trading"</strong>
+  Every measurement feature in this product — fill-verified limits, replay exclusion, significance verdicts — exists
+  to make one sentence true: <i>your statistics describe your trading.</i> The onboarding plan is simply the fastest
+  way to accumulate statistics that are already true.
+</div>
+
+<h2 id="s3-grades">40. Reading Grades &amp; Track Records Correctly</h2>
+<ul>
+  <li><b>A grade is a checklist, not a forecast.</b> A+ = very busy zone + all gates + HTF agreement. It says the setup is well-formed, not that it wins. What it wins <i>on your feed</i> is the Track line's job.</li>
+  <li><b>Compare letters only within your feed.</b> "A+ averages +0.52R here" and "A averages +0.14R" is actionable; someone else's A+ statistics are not your market.</li>
+  <li><b>The grade check sentence is a feature, not an insult.</b> "A+ does NOT beat A on this feed (n=13/11)" means: on this symbol/TF/broker, the HTF-alignment and score bonuses add no measurable value — trade both letters equally, or investigate why (often: your HTF pair is wrong for this instrument — try a different Higher Timeframe).</li>
+  <li><b>Sample sizes rule everything.</b> n=4 means nothing; n=15 is a hint; n=30+ is evidence. The panel prints n next to every number precisely so you never over-read a hot week.</li>
+  <li><b>Per-session insight via CSV:</b> pivot result_r by the <code>session</code> column — many feeds show LDN and NY behaving differently; the session filter then becomes an evidence-based choice instead of folklore.</li>
+</ul>
+
+<h2 id="s3-perf">41. Performance &amp; Chart Hygiene Tips</h2>
+<ul>
+  <li><b>Attaching is cheap since v2.4.2:</b> the history pass defers every draw nobody can see — structure events deeper than <code>Render History</code> (the surviving budget set is backfilled once at the window), intermediate zone and profile refreshes, unchanged active-level lines — measured <b>13× fewer chart operations</b> on a 30 000-bar H4 replay (≈30 000 → ≈2 300), final chart state byte-identical, journal untouched. Load time barely depends on history depth any more. On weak machines you can still trim ink: <code>Render History = 200–300</code>, <code>Zone Redraw Interval = 40</code>, <code>Panel Refresh = 2000</code> — signals and journal never change.</li>
+  <li><b>H4 + MTF configuration note:</b> if your chart timeframe <i>is</i> the "Higher Timeframe" (H4 chart with HTF = H4), the MTF engine re-analyses the very same series — double work, zero new information, and both engines share one zone budget. Set the HTF one step above the chart (H4 chart → D1), or switch MTF off on that chart.</li>
+  <li><b>Clutter control without blinding the engine:</b> <code>Max Zones Drawn</code> / <code>Max Liquidity Lines Drawn</code> cap what is painted, never what is evaluated. A clean chart with a full engine is the intended experience.</li>
+  <li><b>Timeframe switching is safe:</b> open plans are journal-closed as abandoned (excluded from every average), objects are removed, and the history pass rebuilds everything. You will see the "[history]" card recap — that is the design, not a bug.</li>
+  <li><b>Baseline History:</b> 5000 bars is the sweet spot; 0 (all loaded) is fine memory-wise since v2.0.0 and gives the most seasonal stability on symbols with months of history.</li>
+  <li><b>One instance per chart.</b> Two instances of the product on the same chart would double every object family for no new information.</li>
+</ul>
+
+<h2 id="s3-faq">42. FAQ</h2>
+<table>
+  <tr><th>Question</th><th>Answer</th></tr>
+  <tr><td>Does it repaint?</td><td>No. Closed-bar pipeline, confirmed swings publish only after their right leg closes, outcomes latch, PDH/PDL/PWH/PWL come from completed periods. A tick-by-tick run and a closed-bar replay produce identical journals — this is tested, not claimed.</td></tr>
+  <tr><td>Does it trade my account?</td><td>No. <code>AccessRights.None</code> — it cannot. It suggests size and prints plans; you execute.</td></tr>
+  <tr><td>Why did the card disappear?</td><td>Its plan resolved and the hold elapsed, or a newer signal replaced it (the card always mirrors the most recent accepted signal). The journal and the chart's outcome tag keep the record forever.</td></tr>
+  <tr><td>Why does my card say [history]?</td><td>You attached or switched timeframes, and the most recent signal is older than the live edge. The tag and the true age ("95 bars ago") guarantee an old outcome is never mistaken for a fresh one.</td></tr>
+  <tr><td>Win rate?</td><td>Whatever your feed produces — the panel prints it with its sample size. Anyone who quotes you a fixed win rate for a liquidity system is selling, not measuring. The design target is a positive expectancy at ~1.5–2.5R winners vs −1R losers, i.e. profitable well below 50% wins.</td></tr>
+  <tr><td>Best symbol/timeframe?</td><td>Liquid FX majors on M15–H1 with MTF H4 is the reference configuration; the journal will tell you if your broker's feed agrees. Everything else (metals, indices, crypto) has its preset in Section 36.</td></tr>
+  <tr><td>Can I use it as a standalone system?</td><td>Yes — that is what the gates, plan, advice and journal are for. The discretionary layer (Sections 29–30) improves selection, but the measured baseline is the machine's own record.</td></tr>
+  <tr><td>Limit or market entries?</td><td>Market = every signal measured, simplest. Limit at zone EQ = better prices when filled, plus the honest NOT FILLED statistics when the market leaves without you. The journal separates the populations either way.</td></tr>
+  <tr><td>What does "5+" mean on R:R?</td><td>The display cap. Ratios above <code>Max Displayed R:R</code> print as "5+" because 20:1 plans are usually micro-stop artefacts; the gates (min risk ≥ 3× spread) reject the unexecutable ones before they ever reach the card, and the journal keeps raw values.</td></tr>
+  <tr><td>Where are my popups?</td><td>The cTrader indicator API has no popup channel — alerts arrive as <code>[LVN ALERT]</code> log lines, sounds, and the corner card. Pin the log panel or rely on sound + card.</td></tr>
+  <tr><td>Why did attaching on H4 used to take about a minute?</td><td>Pre-2.4.2 the replay drew — and instantly budget-evicted — thousands of chart objects for events far from the live edge; H4 charts carry the deepest histories, so they paid the most. v2.4.2 defers those draws (Section 41): same final chart, ~13× less work. If an H4 attach still feels slow, turn on <code>Debug Log</code>: the init line prints the exact bar count your platform loaded, and Section 41's H4+MTF note covers the one configuration that doubles the engine.</td></tr>
+  <tr><td>Why is there a gap under the watch board?</td><td>Since v2.4.2 the board reserves two text rows above the chart's bottom edge — and stacks above the session strip when both are on — so the live price area is never covered. Intentional padding, not a stray blank line.</td></tr>
+</table>
+
+<h2 id="s3-trouble">43. Troubleshooting</h2>
+<table>
+  <tr><th>Symptom</th><th>First check</th><th>Fix</th></tr>
+  <tr><td>No signals for days</td><td>Panel → <code>Rejections</code> line</td><td>It names the blocking gate; Section 29.4 maps every reason to an action</td></tr>
+  <tr><td>No card after attach</td><td><code>Debug Log</code> → history-pass report</td><td>It prints the card state and WHY (grade below minimum, plan resolved past hold, toast off…). <code>Toast: Restore Card</code> = ON recaps the newest outcome</td></tr>
+  <tr><td>Card shows old outcome as new?</td><td>—</td><td>Impossible by design: replays are tagged [history] with true age. If you see a fresh-looking card, it fired at the live edge — check the log's [LVN ALERT] line</td></tr>
+  <tr><td>Journal says "no measured outcome yet"</td><td>Fresh attach</td><td>Correct — the live record starts now; replay entries are listed but excluded by default</td></tr>
+  <tr><td>Spread shows "(assumed)"</td><td>Feed publishes no spread</td><td>Set <code>Assumed Spread</code> to your broker's typical value so the net gates judge real costs</td></tr>
+  <tr><td>No EQH/EQL ever forms</td><td><code>Equal-Level Tolerance</code></td><td>Too tight for the instrument (metals!): switch tolerance to ATR mode 0.25–0.4</td></tr>
+  <tr><td>Watch board empty / "no data"</td><td>Symbol names</td><td>Broker-exact names (suffixes like ".a" / "#" matter). The row stays visible to show you the typo</td></tr>
+  <tr><td>Chart feels heavy on 50k+ bars</td><td>Render History / redraw interval</td><td>Section 41 numbers; the engine cost stays, the ink cost drops</td></tr>
+  <tr><td>MTF zones missing</td><td>Higher Timeframe data availability</td><td>Ensure the HTF series exists for your symbol/broker; Debug Log prints MTF init failures</td></tr>
+  <tr><td>Everything disappeared after timeframe switch</td><td>—</td><td>That is the reset working: objects removed, open entries marked abandoned, history rebuilding. The recap card returns within moments</td></tr>
+</table>
+
+<h2 id="s3-glossary">44. Glossary</h2>
+<table>
+  <tr><th>Term</th><th>Meaning in this product</th></tr>
+  <tr><td><b>ATR</b></td><td>Average True Range (SMA of True Range, internal, period configurable) — the yardstick of every volatility-scaled rule.</td></tr>
+  <tr><td><b>BOS / CHoCH</b></td><td>Break of Structure (with-trend break) / Change of Character (first break against the prevailing context).</td></tr>
+  <tr><td><b>BSL / SSL</b></td><td>Buy-Side Liquidity (resting buy-stops/breakout orders above highs) / Sell-Side (sell-stops below lows).</td></tr>
+  <tr><td><b>EQH / EQL</b></td><td>Equal Highs / Equal Lows — clustered swings within tolerance; heavy liquidity stacks.</td></tr>
+  <tr><td><b>FVG / iFVG</b></td><td>Fair Value Gap (three-bar imbalance zone) / Inverse FVG (a consumed gap with flipped polarity).</td></tr>
+  <tr><td><b>Breaker</b></td><td>The last opposite candle before a broken swing — a retest zone.</td></tr>
+  <tr><td><b>Sweep / Raid</b></td><td>Price trading beyond a liquidity level to harvest the orders resting there; recorded with its exact extreme.</td></tr>
+  <tr><td><b>SFP</b></td><td>Sweep-Fail-to-Progress: the raid closes back inside the level — the reversal setup's confirmation.</td></tr>
+  <tr><td><b>PDH / PDL / PWH / PWL</b></td><td>Prior Day High/Low, Prior Week High/Low (completed UTC day / ISO week).</td></tr>
+  <tr><td><b>POC / VAH / VAL / VA</b></td><td>Point of Control; Value Area High/Low; Value Area (default 70% of period volume).</td></tr>
+  <tr><td><b>OTE</b></td><td>Optimal Trade Entry — the 62–79% retracement band of the dealing range.</td></tr>
+  <tr><td><b>Premium / Discount / EQ</b></td><td>Upper half / lower half / 50% equilibrium of the dealing range.</td></tr>
+  <tr><td><b>Volume Score</b></td><td>0–100 normalised activity of a zone against the time-of-day baseline (50 = normal, 100 = 2×+ normal), half-life decayed.</td></tr>
+  <tr><td><b>Baseline</b></td><td>The "normal volume" yardstick: rolling, same-time-of-day session average, or their blend.</td></tr>
+  <tr><td><b>Squeeze</b></td><td>A streak of bars below the volume threshold near a zone — compression before expansion.</td></tr>
+  <tr><td><b>R</b></td><td>One unit of the plan's risk (entry−stop). All outcomes, MFE/MAE and statistics are denominated in R.</td></tr>
+  <tr><td><b>MFE / MAE</b></td><td>Maximum Favourable / Adverse Excursion in R from the actual fill, latched.</td></tr>
+  <tr><td><b>Net R:R</b></td><td>(reward − spread) / (risk + spread) — the ratio a real order experiences.</td></tr>
+  <tr><td><b>PF / maxDD / t</b></td><td>Profit Factor (gross wins / gross losses), maximum drawdown of the cumulative R curve, and the expectancy's t-statistic (|t| ≥ 2 ≈ significant at ~95%).</td></tr>
+  <tr><td><b>Measured population</b></td><td>Filled, non-abandoned, live-record closes — the only trades any average in this product is built from.</td></tr>
+  <tr><td><b>Pending / Not Filled</b></td><td>A limit order waiting / an order that never became a position (never traded, or rejected because a gap would open it beyond its stop). Contributes no R, ever.</td></tr>
+  <tr><td><b>Latched</b></td><td>Once written, never rewritten — outcomes, excursions and sweeps cannot be undone by a later wick.</td></tr>
+</table>
+
+<div class="callout tip" style="margin-top:48px;">
+  <strong>Closing word</strong>
+  Liquidity &amp; Volume Nexus will not tell you the future — nothing honest can. It does something rarer: it shows
+  you the map institutions actually trade by, refuses to invent a single number, and then hands you the statistics
+  to judge itself on your own feed. Use it fresh, use it sized, use it measured — and let the journal, not hope,
+  decide when you scale.
+</div>
+
+<p style="color:var(--text-soft);font-size:13px;margin-top:40px;border-top:1px solid var(--border);padding-top:16px;">
+Liquidity &amp; Volume Nexus — Official User Manual · v2.4.2 · © 2026. Trading involves substantial risk of loss.
+Past measurements on one feed do not guarantee future results; this manual describes tooling, not investment advice.
+</p>
+
+</main>
+</div>
+</body>
+</html>

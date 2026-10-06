@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d1a30"/>
+      <stop offset="0.55" stop-color="#08122a"/>
+      <stop offset="1" stop-color="#03060c"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0"   stop-color="#FFE07A"/>
+      <stop offset="0.40" stop-color="#F5C542"/>
+      <stop offset="0.60" stop-color="#FFE9A0"/>
+      <stop offset="1"   stop-color="#B98A1F"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.42" r="0.65">
+      <stop offset="0" stop-color="#F5C542" stop-opacity="0.20"/>
+      <stop offset="1" stop-color="#F5C542" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="gridP" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1c2a44" stroke-width="0.5" opacity="0.55"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="300" height="300" fill="url(#bgGrad)"/>
+  <rect width="300" height="300" fill="url(#gridP)"/>
+  <ellipse cx="150" cy="140" rx="140" ry="90" fill="url(#glow)"/>
+
+  <!-- Outer gold border (store-ready, thin, elegant) -->
+  <rect x="10" y="10" width="280" height="280" rx="24" fill="none"
+        stroke="#F5C542" stroke-opacity="0.35" stroke-width="1.5"/>
+  <rect x="16" y="16" width="268" height="268" rx="20" fill="none"
+        stroke="#F5C542" stroke-opacity="0.10" stroke-width="1"/>
+
+  <!-- Logo mark: stylised "N" made of two vertical bars and a diagonal -->
+  <g transform="translate(150, 130)">
+    <!-- Left vertical bar -->
+    <rect x="-46" y="-52" width="14" height="104" rx="4" fill="url(#goldGrad)"/>
+    <!-- Right vertical bar -->
+    <rect x="32" y="-52" width="14" height="104" rx="4" fill="url(#goldGrad)"/>
+    <!-- Diagonal from top-left to bottom-right -->
+    <path d="M -32 -52 L 32 52 L 18 52 L -46 -52 Z" fill="url(#goldGrad)"/>
+    <!-- Gold dot as decorative accent -->
+    <circle cx="52" cy="-58" r="5" fill="#F5C542"/>
+    <circle cx="52" cy="-58" r="9" fill="#F5C542" opacity="0.18"/>
+  </g>
+
+  <!-- Product name -->
+  <text x="150" y="232" text-anchor="middle"
+        font-family="Inter, -apple-system, Helvetica, Arial, sans-serif"
+        font-size="20" font-weight="800" fill="url(#goldGrad)" letter-spacing="4">NEXUS</text>
+
+  <text x="150" y="256" text-anchor="middle"
+        font-family="Inter, -apple-system, Helvetica, Arial, sans-serif"
+        font-size="9" font-weight="600" fill="#8a98b8" letter-spacing="3.5">LIQUIDITY &amp; VOLUME</text>
+
+  <!-- Thin gold rule at the bottom -->
+  <line x1="80" y1="272" x2="220" y2="272" stroke="#F5C542" stroke-opacity="0.45" stroke-width="1"/>
+</svg>
